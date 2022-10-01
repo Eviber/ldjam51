@@ -11,11 +11,17 @@ pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 fn main() {
     App::new()
         .insert_resource(Random::from_entropy())
+        .insert_resource(WindowDescriptor {
+            width: 948.0,
+            height: 533.0,
+            resizable: false,
+            ..WindowDescriptor::default()
+        })
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup_scene)
         .add_system(ui::Terminal::animate_system)
-        .add_system(ui::Prompt::input_system)
-        .add_system(ui::PromptOptions::update_options)
+        .add_system(ui::Choice::select_choice_system)
+        .add_system_to_stage(CoreStage::PreUpdate, ui::Prev::<Interaction>::update_prev)
         .run();
 }
 
@@ -23,38 +29,82 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
     let terminal_font = assets.load("RobotoMono-Medium.ttf");
 
     commands.spawn_bundle(Camera2dBundle::default());
-    commands.spawn_bundle(ui::TerminalBundle {
-        terminal: ui::Terminal {
-            animated_text: String::from("Salut à tous ! Comment ça va ?"),
-            animation_index: 0,
-            animation_period_range: (0.2, 0.3),
-            next_animation_time: 0.5,
-            font: terminal_font.clone(),
-        },
-        ..ui::TerminalBundle::default()
-    });
-    let prompt_entity = commands
-        .spawn_bundle(ui::PromptBundle::new(TextStyle {
-            color: Color::WHITE,
-            font: terminal_font.clone(),
-            font_size: 24.0,
-        }))
-        .insert(Transform::from_xyz(0.0, 100.0, 0.0))
-        .id();
+
+    let button_text_style = TextStyle {
+        color: Color::BLACK,
+        font: terminal_font,
+        font_size: 24.0,
+    };
 
     commands
-        .spawn_bundle(ui::PromptOptionsBundle {
-            prompt_options: ui::PromptOptions {
-                font: terminal_font,
-                options: vec![
-                    "you should definitely eat those".into(),
-                    "nah, better not".into(),
-                    "do it you won't".into(),
-                ],
-                tracked_entity: prompt_entity,
-                selected: 0,
+        .spawn_bundle(ui::ContainerBundle {
+            style: Style {
+                flex_grow: 1.0,
+                ..Style::default()
             },
-            text: Text2dBundle::default(),
+            ..ui::ContainerBundle::default()
         })
-        .insert(Transform::from_xyz(0.0, -100.0, 0.0));
+        .with_children(|children| {
+            children
+                .spawn_bundle(ui::ContainerBundle {
+                    style: Style {
+                        flex_direction: FlexDirection::Column,
+                        position_type: PositionType::Absolute,
+                        ..Style::default()
+                    },
+                    ..ui::ContainerBundle::default()
+                })
+                .with_children(|children| {
+                    children
+                        .spawn_bundle(ui::ChoiceBundle {
+                            choice: ui::Choice(1),
+                            ..ui::ChoiceBundle::default()
+                        })
+                        .with_children(|children| {
+                            children.spawn_bundle(TextBundle {
+                                text: Text::from_section(
+                                    "trouvez une planette habitée",
+                                    button_text_style.clone(),
+                                ),
+                                ..TextBundle::default()
+                            });
+                        });
+                    children
+                        .spawn_bundle(ui::ChoiceBundle {
+                            choice: ui::Choice(0),
+                            ..ui::ChoiceBundle::default()
+                        })
+                        .with_children(|children| {
+                            children.spawn_bundle(TextBundle {
+                                text: Text::from_section(
+                                    "spacioport le plus proche. vous avez pas le temps de chercher",
+                                    button_text_style.clone(),
+                                ),
+                                ..TextBundle::default()
+                            });
+                        });
+                });
+
+            children.spawn_bundle(ui::TerminalBundle {
+                terminal: ui::Terminal {
+                    font: button_text_style.font.clone(),
+                    animated_text: String::from("lolilol"),
+                    animation_index: 0,
+                    animation_period_range: (0.02, 0.04),
+                    next_animation_time: 0.0,
+                },
+                text: TextBundle {
+                    style: Style {
+                        position_type: PositionType::Absolute,
+                        align_self: AlignSelf::FlexEnd,
+                        ..Style::default()
+                    },
+                    text: Text {
+                        alignment: TextAlignment::BOTTOM_LEFT,
+                        ..Text::default()
+                    },
+                    ..TextBundle::default()
+                },
+            });
+        });
 }

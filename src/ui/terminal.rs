@@ -8,7 +8,7 @@ use crate::Random;
 #[derive(Bundle, Default)]
 pub struct TerminalBundle {
     #[bundle]
-    pub text_2d: Text2dBundle,
+    pub text: TextBundle,
     pub terminal: Terminal,
 }
 

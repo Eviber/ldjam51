@@ -19,6 +19,3 @@ bevy = "0.8"
 #  games.
 rand = { version = "0.8", default-features = false, features = [ "std" ] }
 rand_xoshiro = "0.6"
-
-# Use for fuzzy finding the selected option.
-fuzzy-matcher = "0.3"
