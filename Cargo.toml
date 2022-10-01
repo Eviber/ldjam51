@@ -15,7 +15,7 @@ bevy = "0.8"
 # Random Number Generate
 #  `rand` is a common interface to generate random numbers. Given a specific random number
 #  generator, it is able to generate random data of virtually any type.
-#  `rand_xoshiro` provides RNGs of the xoroshiro-famility - those are fast and therefor good for
+#  `rand_xoshiro` provides RNGs of the xoroshiro-famility - those are fast and therefore good for
 #  games.
 rand = { version = "0.8", default-features = false, features = [ "std" ] }
 rand_xoshiro = "0.6"
