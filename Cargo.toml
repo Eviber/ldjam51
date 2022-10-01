@@ -2,26 +2,20 @@
 name = "ldjam51"
 version = "0.0.1"
 edition = "2021"
-default-run = "main"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-# default is main.rs
-[[bin]]
-name = "main"
-path = "src/main.rs"
-
-[[bin]]
-name = "breakout"
-path = "src/breakout.rs"
-
-[dependencies]
-bevy = { version = "0.8.1", features = ["dynamic"] }
-
-# Enable a small amount of optimization in debug mode
 [profile.dev]
 opt-level = 1
 
-# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
 [profile.dev.package."*"]
 opt-level = 3
+
+[dependencies]
+bevy = "0.8"
+
+# Random Number Generate
+#  `rand` is a common interface to generate random numbers. Given a specific random number
+#  generator, it is able to generate random data of virtually any type.
+#  `rand_xoshiro` provides RNGs of the xoroshiro-famility - those are fast and therefor good for
+#  games.
+rand = { version = "0.8", default-features = false, features = [ "std" ] }
+rand_xoshiro = "0.6"
