@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+
 use rand::Rng;
 
 use crate::Random;
@@ -35,6 +36,14 @@ impl Terminal {
         self.animation_index == self.animated_text.len()
     }
 
+    /// Returns the next character that should be appended to the terminal.
+    #[inline]
+    pub fn next_character(&mut self) -> Option<char> {
+        let c = self.animated_text[self.animation_index..].chars().next()?;
+        self.animation_index += c.len_utf8();
+        Some(c)
+    }
+
     /// A **system** that animates [`Terminal`] components.
     pub fn animate_system(
         mut query: Query<(&mut Terminal, &mut Text)>,
@@ -56,11 +65,7 @@ impl Terminal {
                 terminal.next_animation_time += rng.gen_range(min..max);
 
                 // Append a character.
-                let c = terminal.animated_text[terminal.animation_index..]
-                    .chars()
-                    .next()
-                    .unwrap();
-                terminal.animation_index += c.len_utf8();
+                let c = terminal.next_character().unwrap();
 
                 let last_section = match text.sections.last_mut() {
                     Some(some) => some,
