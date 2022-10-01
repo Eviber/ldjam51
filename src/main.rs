@@ -10,6 +10,11 @@ pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 /// The glorious entry point.
 fn main() {
     App::new()
+        .insert_resource(WindowDescriptor {
+            width: 948.0,
+            height: 533.0,
+            ..Default::default()
+        })
         .insert_resource(Random::from_entropy())
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup_scene)
