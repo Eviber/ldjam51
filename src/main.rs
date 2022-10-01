@@ -3,17 +3,25 @@ use bevy::prelude::*;
 
 use rand::SeedableRng;
 
-pub mod ui;
+mod parsing;
+mod ui;
 
 /// The random number generator we are using.
 pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 
 /// The glorious entry point.
 fn main() {
+    let p = match parsing::read_config() {
+        Ok(p) => p,
+        Err(e) => {
+            println!("Error reading config: {}", e);
+            return;
+        }
+    };
     App::new()
         .insert_resource(WindowDescriptor {
-            width: 948.0,
-            height: 533.0,
+            width: p.window_size.width,
+            height: p.window_size.height,
             ..Default::default()
         })
         .insert_resource(Random::from_entropy())

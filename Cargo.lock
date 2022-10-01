@@ -1840,6 +1840,8 @@ dependencies = [
  "bevy",
  "rand",
  "rand_xoshiro",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
