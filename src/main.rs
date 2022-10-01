@@ -1,3 +1,4 @@
+use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
 
 use rand::SeedableRng;
@@ -19,6 +20,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup_scene)
         .add_system(ui::Terminal::animate_system)
+        .add_system(keyboard_events)
         .run();
 }
 
@@ -34,4 +36,26 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
         },
         ..ui::TerminalBundle::default()
     });
+}
+
+fn keyboard_events(mut key_evr: EventReader<KeyboardInput>, mut windows: ResMut<Windows>) {
+    use bevy::input::ButtonState;
+    use bevy::window::WindowMode;
+
+    let window = windows.get_primary_mut().unwrap();
+    for ev in key_evr.iter() {
+        match ev.state {
+            ButtonState::Pressed => {}
+            ButtonState::Released => {
+                if let Some(KeyCode::F) = ev.key_code {
+                    window.set_mode(if window.mode() == WindowMode::Windowed {
+                        println!("FULLSCREEN");
+                        WindowMode::Fullscreen
+                    } else {
+                        WindowMode::Windowed
+                    });
+                }
+            }
+        }
+    }
 }
