@@ -18,6 +18,12 @@ struct CurrentSelection(usize);
 /// Remaining time to answer (in seconds)
 struct RemainingTime(f32);
 
+/// Resource referencing every ui element
+struct UiElements {
+    terminal: Entity,
+    choices: [Entity; 2],
+}
+
 /// The glorious entry point.
 fn main() -> ExitCode {
     let p = match parsing::read_config() {
@@ -91,35 +97,37 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
         ..default()
     });
 
-    commands.spawn_bundle(ui::TerminalBundle {
-        terminal: ui::Terminal {
-            style: query_text_style.clone(),
-            animated_text: String::from(
-                "An asteroid is going to hit us!\nQuick, what should we do?",
-            ),
-            animation_index: 0,
-            animation_period_range: (0.02, 0.04),
-            next_animation_time: 0.0,
-        },
-        text: TextBundle {
-            style: Style {
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    left: Val::Percent(460.0 / 1896.0 * 100.0),
-                    top: Val::Percent(200.0 / 1066.0 * 100.0),
+    let terminal = commands
+        .spawn_bundle(ui::TerminalBundle {
+            terminal: ui::Terminal {
+                style: query_text_style.clone(),
+                animated_text: String::from(
+                    "An asteroid is going to hit us!\nQuick, what should we do?",
+                ),
+                animation_index: 0,
+                animation_period_range: (0.02, 0.04),
+                next_animation_time: 0.0,
+            },
+            text: TextBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    position: UiRect {
+                        left: Val::Percent(460.0 / 1896.0 * 100.0),
+                        top: Val::Percent(200.0 / 1066.0 * 100.0),
+                        ..default()
+                    },
+                    ..default()
+                },
+                text: Text {
+                    alignment: TextAlignment::BOTTOM_LEFT,
                     ..default()
                 },
                 ..default()
             },
-            text: Text {
-                alignment: TextAlignment::BOTTOM_LEFT,
-                ..default()
-            },
-            ..default()
-        },
-    });
+        })
+        .id();
 
-    commands
+    let choice1 = commands
         .spawn_bundle(ui::ChoiceBundle {
             choice: ui::Choice(1),
             style: Style {
@@ -144,9 +152,10 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
                 },
                 text: TextBundle { ..default() },
             });
-        });
+        })
+        .id();
 
-    commands
+    let choice2 = commands
         .spawn_bundle(ui::ChoiceBundle {
             choice: ui::Choice(0),
             style: Style {
@@ -171,7 +180,32 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
                 },
                 text: TextBundle { ..default() },
             });
-        });
+        })
+        .id();
+
+    commands.insert_resource(UiElements {
+        terminal,
+        choices: [choice1, choice2],
+    });
+}
+
+fn story_loop(
+    mut executor: ResMut<story::StoryExecutor>,
+    mut current_selection: ResMut<CurrentSelection>,
+    mut remaining_time: ResMut<RemainingTime>,
+    mut random: ResMut<Random>,
+    mut ui_elements: ResMut<UiElements>,
+    dt: Res<Time>,
+    mut query: Query<&mut ui::Terminal>,
+) {
+    remaining_time.0 -= dt.delta_seconds();
+
+    if remaining_time.0 > 0.0 {
+        return;
+    }
+    remaining_time.0 = 10.0;
+    current_selection.0 = 0;
+    todo!("next story step");
 }
 
 fn keyboard_events(mut key_evr: EventReader<KeyboardInput>, mut windows: ResMut<Windows>) {
