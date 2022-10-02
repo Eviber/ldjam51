@@ -17,7 +17,7 @@ fn main() -> ExitCode {
     let p = match parsing::read_config() {
         Ok(p) => p,
         Err(e) => {
-            println!("Error reading config: {}", e);
+            eprintln!("Error reading config: {e}");
             return ExitCode::FAILURE;
         }
     };
