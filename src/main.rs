@@ -34,7 +34,7 @@ fn main() -> ExitCode {
         }
     };
 
-    let story = match story::parse_story("assets/story.json".as_ref()) {
+    let story = match story::parse_story() {
         Ok(ok) => ok,
         Err(err) => {
             eprintln!("error: {err}");
