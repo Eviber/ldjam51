@@ -12,6 +12,12 @@ mod ui;
 /// The random number generator we are using.
 pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 
+/// Index of the selected answer
+struct CurrentSelection(usize);
+
+/// Remaining time to answer (in seconds)
+struct RemainingTime(f32);
+
 /// The glorious entry point.
 fn main() -> ExitCode {
     let p = match parsing::read_config() {
@@ -43,6 +49,8 @@ fn main() -> ExitCode {
             resizable: false,
             ..default()
         })
+        .insert_resource(CurrentSelection(0))
+        .insert_resource(RemainingTime(10.0))
         .insert_resource(executor)
         .insert_resource(Random::from_entropy())
         .add_plugins(DefaultPlugins)
