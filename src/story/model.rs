@@ -120,9 +120,18 @@ pub struct Story {
     pub batches: Vec<Batch>,
 }
 
-/// Parses a [`Story`] instance at the provided path.
-pub fn parse_story(path: &Path) -> io::Result<Story> {
-    let file = BufReader::new(File::open(path)?);
+#[cfg(all(debug_assertions, not(target_arch = "wasm32")))]
+/// Parses a [`Story`] instance at assets/story.json
+pub fn parse_story() -> io::Result<Story> {
+    let file = BufReader::new(File::open("assets/story.json")?);
     let story = serde_json::from_reader(file)?;
+    Ok(story)
+}
+
+#[cfg(any(not(debug_assertions), target_arch = "wasm32"))]
+/// Parses a [`Story`] instance directly loaded from assets/story.json
+pub fn parse_story() -> io::Result<Story> {
+    let file = include_str!("../../assets/story.json");
+    let story = serde_json::from_str(file)?;
     Ok(story)
 }
