@@ -10,7 +10,7 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = "0.8"
+bevy = { version = "0.8", features = ["jpeg"] }
 # Random Number Generator
 #  `rand` is a common interface to generate random numbers. Given a specific random number
 #  generator, it is able to generate random data of virtually any type.

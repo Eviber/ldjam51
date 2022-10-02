@@ -20,6 +20,7 @@ fn main() {
     };
     App::new()
         .insert_resource(WindowDescriptor {
+            title: "PLACEHOLDER".to_string(),
             width: p.window_size.width,
             height: p.window_size.height,
             resizable: false,
@@ -40,81 +41,107 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
 
     commands.spawn_bundle(Camera2dBundle::default());
 
+    let query_text_style = TextStyle {
+        color: Color::WHITE,
+        font: terminal_font.clone(),
+        font_size: 34.0,
+    };
+
     let button_text_style = TextStyle {
-        color: Color::BLACK,
+        color: Color::WHITE,
         font: terminal_font,
         font_size: 24.0,
     };
 
-    commands
-        .spawn_bundle(ui::ContainerBundle {
+    commands.spawn_bundle(ImageBundle {
+        style: Style {
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+            position_type: PositionType::Absolute,
+            ..default()
+        },
+        image: UiImage(assets.load("bg.jpg")),
+        ..default()
+    });
+
+    commands.spawn_bundle(ui::TerminalBundle {
+        terminal: ui::Terminal {
+            style: query_text_style.clone(),
+            animated_text: String::from(
+                "An asteroid is going to hit us!\nQuick, what should we do?",
+            ),
+            animation_index: 0,
+            animation_period_range: (0.02, 0.04),
+            next_animation_time: 0.0,
+        },
+        text: TextBundle {
             style: Style {
-                flex_grow: 1.0,
+                position_type: PositionType::Absolute,
+                position: UiRect {
+                    left: Val::Percent(460.0 / 1896.0 * 100.0),
+                    top: Val::Percent(200.0 / 1066.0 * 100.0),
+                    ..default()
+                },
+                ..default()
+            },
+            text: Text {
+                alignment: TextAlignment::BOTTOM_LEFT,
+                ..default()
+            },
+            ..default()
+        },
+    });
+
+    commands
+        .spawn_bundle(ui::ChoiceBundle {
+            choice: ui::Choice(1),
+            style: Style {
+                position_type: PositionType::Absolute,
+                position: UiRect {
+                    left: Val::Percent(460.0 / 1896.0 * 100.0),
+                    top: Val::Percent(770.0 / 1066.0 * 100.0),
+                    ..default()
+                },
                 ..default()
             },
             ..default()
         })
         .with_children(|children| {
-            children
-                .spawn_bundle(ui::ContainerBundle {
-                    style: Style {
-                        flex_direction: FlexDirection::Column,
-                        position_type: PositionType::Absolute,
-                        ..default()
-                    },
-                    ..default()
-                })
-                .with_children(|children| {
-                    children
-                        .spawn_bundle(ui::ChoiceBundle {
-                            choice: ui::Choice(1),
-                            ..default()
-                        })
-                        .with_children(|children| {
-                            children.spawn_bundle(TextBundle {
-                                text: Text::from_section(
-                                    "trouvez une planette habitée",
-                                    button_text_style.clone(),
-                                ),
-                                ..default()
-                            });
-                        });
-                    children
-                        .spawn_bundle(ui::ChoiceBundle {
-                            choice: ui::Choice(0),
-                            ..default()
-                        })
-                        .with_children(|children| {
-                            children.spawn_bundle(TextBundle {
-                                text: Text::from_section(
-                                    "spacioport le plus proche. vous avez pas le temps de chercher",
-                                    button_text_style.clone(),
-                                ),
-                                ..default()
-                            });
-                        });
-                });
-
             children.spawn_bundle(ui::TerminalBundle {
                 terminal: ui::Terminal {
-                    font: button_text_style.font.clone(),
-                    animated_text: String::from("lolilol"),
+                    style: button_text_style.clone(),
+                    animated_text: String::from("Send a rocket and explode it"),
                     animation_index: 0,
                     animation_period_range: (0.02, 0.04),
                     next_animation_time: 0.0,
                 },
-                text: TextBundle {
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        align_self: AlignSelf::FlexEnd,
-                        ..default()
-                    },
-                    text: Text {
-                        alignment: TextAlignment::BOTTOM_LEFT,
-                        ..default()
-                    },
+                text: TextBundle { ..default() },
+            });
+        });
+
+    commands
+        .spawn_bundle(ui::ChoiceBundle {
+            choice: ui::Choice(0),
+            style: Style {
+                position_type: PositionType::Absolute,
+                position: UiRect {
+                    left: Val::Percent(460.0 / 1896.0 * 100.0),
+                    top: Val::Percent(860.0 / 1066.0 * 100.0),
                     ..default()
                 },
+                ..default()
+            },
+            ..default()
+        })
+        .with_children(|children| {
+            children.spawn_bundle(ui::TerminalBundle {
+                terminal: ui::Terminal {
+                    style: button_text_style.clone(),
+                    animated_text: String::from("Change direction to avoid it"),
+                    animation_index: 0,
+                    animation_period_range: (0.02, 0.04),
+                    next_animation_time: 0.0,
+                },
+                text: TextBundle { ..default() },
             });
         });
 }

@@ -26,7 +26,7 @@ pub struct Terminal {
     /// in that range.
     pub animation_period_range: (f32, f32),
     /// The font of the terminal.
-    pub font: Handle<Font>,
+    pub style: TextStyle,
 }
 
 impl Terminal {
@@ -70,11 +70,8 @@ impl Terminal {
                 let last_section = match text.sections.last_mut() {
                     Some(some) => some,
                     None => {
-                        text.sections.push(TextSection::from_style(TextStyle {
-                            font: terminal.font.clone(),
-                            font_size: 18.0,
-                            color: Color::WHITE,
-                        }));
+                        text.sections
+                            .push(TextSection::from_style(terminal.style.clone()));
                         text.sections.last_mut().unwrap()
                     }
                 };
