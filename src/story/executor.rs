@@ -32,9 +32,11 @@ impl StoryExecutor {
         loop {
             let batch = self.story.batches.get_mut(self.current_batch)?;
 
+            self.current_prompt += 1;
             if self.current_prompt >= batch.prompts.len() {
                 // The batch has been exhausted.
                 self.current_batch += 1;
+                self.current_prompt = 0;
                 continue;
             }
 

@@ -1,7 +1,6 @@
 use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
 
-use bevy::ui::FocusPolicy;
 use rand::SeedableRng;
 
 use std::process::ExitCode;
@@ -61,12 +60,13 @@ fn main() -> ExitCode {
         .add_system(ui::Terminal::animate_system)
         .add_system(keyboard_events)
         .add_system(ui::Choice::select_choice_system)
+        .add_system(story_loop)
         .run();
 
     ExitCode::SUCCESS
 }
 
-fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
+fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {
     let terminal_font = assets.load("RobotoMono-Medium.ttf");
 
     commands.spawn_bundle(Camera2dBundle::default());
@@ -83,6 +83,8 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
         font_size: 24.0,
     };
 
+    let prompt = story.get_current_prompt().unwrap();
+
     commands.spawn_bundle(ImageBundle {
         style: Style {
             size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
@@ -97,9 +99,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
         .spawn_bundle(ui::TerminalBundle {
             terminal: ui::Terminal {
                 style: query_text_style,
-                animated_text: String::from(
-                    "An asteroid is going to hit us!\nQuick, what should we do?",
-                ),
+                animated_text: prompt.request.clone(),
                 animation_index: 0,
                 animation_period_range: (0.02, 0.04),
                 next_animation_time: 0.0,
@@ -127,7 +127,8 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
     // to understand why. Quick fix: add an empty choice button at the begining.
     commands.spawn_bundle(ui::ChoiceBundle::default());
 
-    let choice1 = commands
+    let mut choice1 = Entity::from_raw(0); // TODO remove this hack
+    commands
         .spawn_bundle(ui::ChoiceBundle {
             choice: ui::Choice(1),
             style: Style {
@@ -142,20 +143,22 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
             ..default()
         })
         .with_children(|children| {
-            children.spawn_bundle(ui::TerminalBundle {
-                terminal: ui::Terminal {
-                    style: button_text_style.clone(),
-                    animated_text: String::from("Send a rocket and explode it"),
-                    animation_index: 0,
-                    animation_period_range: (0.02, 0.04),
-                    next_animation_time: 0.0,
-                },
-                text: TextBundle { ..default() },
-            });
-        })
-        .id();
+            choice1 = children
+                .spawn_bundle(ui::TerminalBundle {
+                    terminal: ui::Terminal {
+                        style: button_text_style.clone(),
+                        animated_text: prompt.answers[1].text.clone(),
+                        animation_index: 0,
+                        animation_period_range: (0.02, 0.04),
+                        next_animation_time: 0.0,
+                    },
+                    text: TextBundle { ..default() },
+                })
+                .id();
+        });
 
-    let choice2 = commands
+    let mut choice2 = Entity::from_raw(0); // TODO remove this hack
+    commands
         .spawn_bundle(ui::ChoiceBundle {
             choice: ui::Choice(2),
             style: Style {
@@ -170,18 +173,19 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
             ..default()
         })
         .with_children(|children| {
-            children.spawn_bundle(ui::TerminalBundle {
-                terminal: ui::Terminal {
-                    style: button_text_style.clone(),
-                    animated_text: String::from("Change direction to avoid it"),
-                    animation_index: 0,
-                    animation_period_range: (0.02, 0.04),
-                    next_animation_time: 0.0,
-                },
-                ..default()
-            });
-        })
-        .id();
+            choice2 = children
+                .spawn_bundle(ui::TerminalBundle {
+                    terminal: ui::Terminal {
+                        style: button_text_style.clone(),
+                        animated_text: prompt.answers[2].text.clone(),
+                        animation_index: 0,
+                        animation_period_range: (0.02, 0.04),
+                        next_animation_time: 0.0,
+                    },
+                    ..default()
+                })
+                .id();
+        });
 
     commands.insert_resource(UiElements {
         terminal,
@@ -196,7 +200,7 @@ fn story_loop(
     mut random: ResMut<Random>,
     ui_elements: ResMut<UiElements>,
     dt: Res<Time>,
-    mut query: Query<&mut ui::Terminal>,
+    mut query: Query<(&mut ui::Terminal, &mut Text)>,
 ) {
     remaining_time.0 -= dt.delta_seconds();
 
@@ -208,13 +212,21 @@ fn story_loop(
     let next_prompt = executor
         .select_answer(current_selection.0, &mut *random)
         .unwrap();
-    let mut terminal = query.get_mut(ui_elements.terminal).unwrap();
+    let (mut terminal, mut text) = query.get_mut(ui_elements.terminal).unwrap();
     terminal.animated_text = next_prompt.request.clone();
     terminal.animation_index = 0;
+    text.sections
+        .iter_mut()
+        .map(|s| &mut s.value)
+        .for_each(String::clear);
     for (i, choice) in ui_elements.choices.iter().enumerate() {
-        let mut choice = query.get_mut(*choice).unwrap();
-        choice.animated_text = next_prompt.answers[i].text.clone();
+        let (mut choice, mut text) = query.get_mut(*choice).unwrap();
+        choice.animated_text = next_prompt.answers[i + 1].text.clone();
         choice.animation_index = 0;
+        text.sections
+            .iter_mut()
+            .map(|s| &mut s.value)
+            .for_each(String::clear);
     }
 }
 
