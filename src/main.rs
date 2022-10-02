@@ -14,10 +14,10 @@ mod ui;
 pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 
 /// Index of the selected answer
-struct CurrentSelection(usize);
+pub struct CurrentSelection(usize);
 
 /// Remaining time to answer (in seconds)
-struct RemainingTime(f32);
+pub struct RemainingTime(f32);
 
 /// The glorious entry point.
 fn main() -> ExitCode {
@@ -121,7 +121,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
 
     commands
         .spawn_bundle(ui::ChoiceBundle {
-            choice: ui::Choice(0),
+            choice: ui::Choice(2),
             style: Style {
                 position_type: PositionType::Absolute,
                 position: UiRect {

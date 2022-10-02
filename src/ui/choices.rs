@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;
 
+use crate::CurrentSelection;
+
 /// A **bundle** that represents a button.
 #[derive(Bundle, Default, Debug)]
 pub struct ChoiceBundle {
@@ -41,13 +43,21 @@ impl Choice {
             (&Interaction, &Prev<Interaction>, &Choice),
             (With<Button>, Changed<Interaction>),
         >,
+        mut selected_choice: ResMut<CurrentSelection>,
     ) {
         for (interaction, prev, choice) in query.iter_mut() {
             // Detect a transition from clicked into hovered.
             if matches!(
                 (*interaction, prev.0),
                 (Interaction::Hovered, Interaction::Clicked)
-            ) {}
+            ) {
+                if selected_choice.0 == choice.0 {
+                    selected_choice.0 = 0;
+                } else {
+                    selected_choice.0 = choice.0;
+                }
+                println!("selected choice: {}", selected_choice.0);
+            }
         }
     }
 }
