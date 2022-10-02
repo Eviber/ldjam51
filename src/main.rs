@@ -4,6 +4,7 @@ use bevy::prelude::*;
 use rand::SeedableRng;
 
 mod parsing;
+mod story;
 mod ui;
 
 /// The random number generator we are using.
