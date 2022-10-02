@@ -126,8 +126,6 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
         })
         .id();
 
-    // The first UI element seems to be ignored for some obscure reason. We don't have the time
-    // to understand why. Quick fix: add an empty choice button at the begining.
     commands.spawn_bundle(ui::ContainerBundle::default());
 
     commands
@@ -160,6 +158,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                     top: Val::Percent(770.0 / 1066.0 * 100.0),
                     ..default()
                 },
+                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
                 ..default()
             },
             ..default()
@@ -174,7 +173,10 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                         animation_period_range: (0.02, 0.04),
                         next_animation_time: 0.0,
                     },
-                    text: TextBundle { ..default() },
+                    text: TextBundle {
+                        focus_policy: FocusPolicy::Pass,
+                        ..default()
+                    },
                 })
                 .id();
         });
@@ -190,6 +192,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                     top: Val::Percent(860.0 / 1066.0 * 100.0),
                     ..default()
                 },
+                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
                 ..default()
             },
             ..default()

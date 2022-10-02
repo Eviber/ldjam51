@@ -17,6 +17,7 @@ impl Selector {
         }
 
         for mut style in query.iter_mut() {
+            println!("selected: {}", current.0);
             match current.0 {
                 0 => style.position.top = Val::Percent(-1000.0),
                 1 => style.position.top = Val::Percent(770.0 / 1066.0 * 100.0),
