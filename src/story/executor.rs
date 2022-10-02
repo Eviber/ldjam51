@@ -63,18 +63,6 @@ impl StoryExecutor {
 
         self.get_current_prompt()
     }
-
-    /// Gets a shared reference to the variables of this script.
-    #[inline]
-    pub fn variables(&self) -> &Variables {
-        &self.variables
-    }
-
-    /// Returns an exclusive reference to the variables of this script.
-    #[inline]
-    pub fn variables_mut(&mut self) -> &mut Variables {
-        &mut self.variables
-    }
 }
 
 impl From<Story> for StoryExecutor {

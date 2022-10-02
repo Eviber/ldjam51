@@ -110,13 +110,15 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                     position_type: PositionType::Absolute,
                     position: UiRect {
                         left: Val::Percent(460.0 / 1896.0 * 100.0),
-                        top: Val::Percent(200.0 / 1066.0 * 100.0),
+                        top: Val::Px(85.0),
                         ..default()
                     },
+                    overflow: Overflow::Hidden,
+                    size: Size::new(Val::Px(500.0), Val::Px(250.0)),
                     ..default()
                 },
                 text: Text {
-                    alignment: TextAlignment::BOTTOM_LEFT,
+                    alignment: TextAlignment::TOP_LEFT,
                     ..default()
                 },
                 ..default()
@@ -177,7 +179,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                 .id();
         });
 
-    let mut choice2 = Entity::from_raw(0); // TODO remove this hack
+    let mut choice2 = Entity::from_raw(0); // TODO remove this hack // TODO: don't remove it it's cool
     commands
         .spawn_bundle(ui::ChoiceBundle {
             choice: ui::Choice(2),
