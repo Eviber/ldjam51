@@ -38,6 +38,7 @@ impl<T: Component + Clone> Prev<T> {
 }
 
 impl Choice {
+    #[allow(clippy::type_complexity)]
     pub fn select_choice_system(
         mut query: Query<
             (&Interaction, &Prev<Interaction>, &Choice),

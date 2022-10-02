@@ -19,6 +19,12 @@ pub struct CurrentSelection(usize);
 /// Remaining time to answer (in seconds)
 pub struct RemainingTime(f32);
 
+/// Resource referencing every ui element
+struct UiElements {
+    terminal: Entity,
+    choices: [Entity; 2],
+}
+
 /// The glorious entry point.
 fn main() -> ExitCode {
     let p = match parsing::read_config() {
@@ -87,39 +93,69 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
         ..default()
     });
 
-    commands.spawn_bundle(ui::TerminalBundle {
-        terminal: ui::Terminal {
-            style: query_text_style.clone(),
-            animated_text: String::from(
-                "An asteroid is going to hit us!\nQuick, what should we do?",
-            ),
-            animation_index: 0,
-            animation_period_range: (0.02, 0.04),
-            next_animation_time: 0.0,
-        },
-        text: TextBundle {
-            style: Style {
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    left: Val::Percent(460.0 / 1896.0 * 100.0),
-                    top: Val::Percent(200.0 / 1066.0 * 100.0),
+    let terminal = commands
+        .spawn_bundle(ui::TerminalBundle {
+            terminal: ui::Terminal {
+                style: query_text_style,
+                animated_text: String::from(
+                    "An asteroid is going to hit us!\nQuick, what should we do?",
+                ),
+                animation_index: 0,
+                animation_period_range: (0.02, 0.04),
+                next_animation_time: 0.0,
+            },
+            text: TextBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    position: UiRect {
+                        left: Val::Percent(460.0 / 1896.0 * 100.0),
+                        top: Val::Percent(200.0 / 1066.0 * 100.0),
+                        ..default()
+                    },
+                    ..default()
+                },
+                text: Text {
+                    alignment: TextAlignment::BOTTOM_LEFT,
                     ..default()
                 },
                 ..default()
             },
-            text: Text {
-                alignment: TextAlignment::BOTTOM_LEFT,
-                ..default()
-            },
-            ..default()
-        },
-    });
+        })
+        .id();
 
     // The first `ChoiceBundle` seems to be ignored by the input system. We don't have the time
     // to understand why. Quick fix: add an empty choice button at the begining.
     commands.spawn_bundle(ui::ChoiceBundle::default());
 
-    commands
+    let choice1 = commands
+        .spawn_bundle(ui::ChoiceBundle {
+            choice: ui::Choice(1),
+            style: Style {
+                position_type: PositionType::Absolute,
+                position: UiRect {
+                    left: Val::Percent(460.0 / 1896.0 * 100.0),
+                    top: Val::Percent(770.0 / 1066.0 * 100.0),
+                    ..default()
+                },
+                ..default()
+            },
+            ..default()
+        })
+        .with_children(|children| {
+            children.spawn_bundle(ui::TerminalBundle {
+                terminal: ui::Terminal {
+                    style: button_text_style.clone(),
+                    animated_text: String::from("Send a rocket and explode it"),
+                    animation_index: 0,
+                    animation_period_range: (0.02, 0.04),
+                    next_animation_time: 0.0,
+                },
+                text: TextBundle { ..default() },
+            });
+        })
+        .id();
+
+    let choice2 = commands
         .spawn_bundle(ui::ChoiceBundle {
             choice: ui::Choice(2),
             style: Style {
@@ -131,7 +167,6 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
                 },
                 ..default()
             },
-            focus_policy: FocusPolicy::Pass,
             ..default()
         })
         .with_children(|children| {
@@ -145,35 +180,42 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
                 },
                 ..default()
             });
-        });
-
-    commands
-        .spawn_bundle(ui::ChoiceBundle {
-            choice: ui::Choice(1),
-            style: Style {
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    left: Val::Percent(460.0 / 1896.0 * 100.0),
-                    top: Val::Percent(770.0 / 1066.0 * 100.0),
-                    ..default()
-                },
-                ..default()
-            },
-            focus_policy: FocusPolicy::Pass,
-            ..default()
         })
-        .with_children(|children| {
-            children.spawn_bundle(ui::TerminalBundle {
-                terminal: ui::Terminal {
-                    style: button_text_style.clone(),
-                    animated_text: String::from("Send a rocket and explode it"),
-                    animation_index: 0,
-                    animation_period_range: (0.02, 0.04),
-                    next_animation_time: 0.0,
-                },
-                ..default()
-            });
-        });
+        .id();
+
+    commands.insert_resource(UiElements {
+        terminal,
+        choices: [choice1, choice2],
+    });
+}
+
+fn story_loop(
+    mut executor: ResMut<story::StoryExecutor>,
+    mut current_selection: ResMut<CurrentSelection>,
+    mut remaining_time: ResMut<RemainingTime>,
+    mut random: ResMut<Random>,
+    ui_elements: ResMut<UiElements>,
+    dt: Res<Time>,
+    mut query: Query<&mut ui::Terminal>,
+) {
+    remaining_time.0 -= dt.delta_seconds();
+
+    if remaining_time.0 > 0.0 {
+        return;
+    }
+    remaining_time.0 = 10.0;
+    current_selection.0 = 0;
+    let next_prompt = executor
+        .select_answer(current_selection.0, &mut *random)
+        .unwrap();
+    let mut terminal = query.get_mut(ui_elements.terminal).unwrap();
+    terminal.animated_text = next_prompt.request.clone();
+    terminal.animation_index = 0;
+    for (i, choice) in ui_elements.choices.iter().enumerate() {
+        let mut choice = query.get_mut(*choice).unwrap();
+        choice.animated_text = next_prompt.answers[i].text.clone();
+        choice.animation_index = 0;
+    }
 }
 
 fn keyboard_events(mut key_evr: EventReader<KeyboardInput>, mut windows: ResMut<Windows>) {
