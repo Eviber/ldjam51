@@ -77,6 +77,13 @@ impl StoryExecutor {
 
 impl From<Story> for StoryExecutor {
     fn from(s: Story) -> Self {
+        let mut variables = Variables::default();
+
+        for action in &s.actions {
+            let val = variables.get_mut(&action.name);
+            action.op.execute(val, action.value);
+        }
+
         Self {
             story: s,
             current_batch: 0,

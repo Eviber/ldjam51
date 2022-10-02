@@ -1,6 +1,7 @@
 use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
 
+use bevy::ui::FocusPolicy;
 use rand::SeedableRng;
 
 use std::process::ExitCode;
@@ -36,11 +37,6 @@ fn main() -> ExitCode {
         }
     };
 
-    println!("{story:#?}");
-
-    let mut executor = story::StoryExecutor::from(story);
-    *executor.variables_mut().get_mut("crewmate_count") = 14;
-
     App::new()
         .insert_resource(WindowDescriptor {
             title: "PLACEHOLDER".to_string(),
@@ -51,11 +47,11 @@ fn main() -> ExitCode {
         })
         .insert_resource(CurrentSelection(0))
         .insert_resource(RemainingTime(10.0))
-        .insert_resource(executor)
+        .insert_resource(story::StoryExecutor::from(story))
         .insert_resource(Random::from_entropy())
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup_scene)
-        .add_system_to_stage(CoreStage::PreUpdate, ui::Prev::<Interaction>::update_prev)
+        .add_system_to_stage(CoreStage::First, ui::Prev::<Interaction>::update_prev)
         .add_system(ui::Terminal::animate_system)
         .add_system(keyboard_events)
         .add_system(ui::Choice::select_choice_system)
@@ -119,32 +115,9 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
         },
     });
 
-    commands
-        .spawn_bundle(ui::ChoiceBundle {
-            choice: ui::Choice(1),
-            style: Style {
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    left: Val::Percent(460.0 / 1896.0 * 100.0),
-                    top: Val::Percent(770.0 / 1066.0 * 100.0),
-                    ..default()
-                },
-                ..default()
-            },
-            ..default()
-        })
-        .with_children(|children| {
-            children.spawn_bundle(ui::TerminalBundle {
-                terminal: ui::Terminal {
-                    style: button_text_style.clone(),
-                    animated_text: String::from("Send a rocket and explode it"),
-                    animation_index: 0,
-                    animation_period_range: (0.02, 0.04),
-                    next_animation_time: 0.0,
-                },
-                text: TextBundle { ..default() },
-            });
-        });
+    // The first `ChoiceBundle` seems to be ignored by the input system. We don't have the time
+    // to understand why. Quick fix: add an empty choice button at the begining.
+    commands.spawn_bundle(ui::ChoiceBundle::default());
 
     commands
         .spawn_bundle(ui::ChoiceBundle {
@@ -158,6 +131,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
                 },
                 ..default()
             },
+            focus_policy: FocusPolicy::Pass,
             ..default()
         })
         .with_children(|children| {
@@ -169,7 +143,35 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
                     animation_period_range: (0.02, 0.04),
                     next_animation_time: 0.0,
                 },
-                text: TextBundle { ..default() },
+                ..default()
+            });
+        });
+
+    commands
+        .spawn_bundle(ui::ChoiceBundle {
+            choice: ui::Choice(1),
+            style: Style {
+                position_type: PositionType::Absolute,
+                position: UiRect {
+                    left: Val::Percent(460.0 / 1896.0 * 100.0),
+                    top: Val::Percent(770.0 / 1066.0 * 100.0),
+                    ..default()
+                },
+                ..default()
+            },
+            focus_policy: FocusPolicy::Pass,
+            ..default()
+        })
+        .with_children(|children| {
+            children.spawn_bundle(ui::TerminalBundle {
+                terminal: ui::Terminal {
+                    style: button_text_style.clone(),
+                    animated_text: String::from("Send a rocket and explode it"),
+                    animation_index: 0,
+                    animation_period_range: (0.02, 0.04),
+                    next_animation_time: 0.0,
+                },
+                ..default()
             });
         });
 }
@@ -185,7 +187,6 @@ fn keyboard_events(mut key_evr: EventReader<KeyboardInput>, mut windows: ResMut<
             ButtonState::Released => {
                 if let Some(KeyCode::F) = ev.key_code {
                     window.set_mode(if window.mode() == WindowMode::Windowed {
-                        println!("FULLSCREEN");
                         WindowMode::Fullscreen
                     } else {
                         WindowMode::Windowed

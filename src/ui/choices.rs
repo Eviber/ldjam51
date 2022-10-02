@@ -47,9 +47,7 @@ impl Choice {
             if matches!(
                 (*interaction, prev.0),
                 (Interaction::Hovered, Interaction::Clicked)
-            ) {
-                println!("clicked on {}", choice.0);
-            }
+            ) {}
         }
     }
 }

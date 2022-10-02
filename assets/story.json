@@ -1,4 +1,11 @@
 {
+    "actions": [
+        {
+            "name": "crewmate_count",
+            "op": "set",
+            "value": 14
+        }
+    ],
     "batches" :
 	[
         {
