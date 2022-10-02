@@ -39,7 +39,7 @@ fn main() -> ExitCode {
             resizable: false,
             ..default()
         })
-        .insert_resource(executor)
+        .insert_resource(story::StoryExecutor::from(story))
         .insert_resource(Random::from_entropy())
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup_scene)

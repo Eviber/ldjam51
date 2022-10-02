@@ -114,6 +114,8 @@ pub struct Batch {
 /// The main story structure. This basically acts as a collection of [`Batch`]es.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Story {
+    /// A collection of actions that should be taken at the begining of the game.
+    pub actions: Vec<Action>,
     /// The batches that are to be presented to the player before ending the game.
     pub batches: Vec<Batch>,
 }
