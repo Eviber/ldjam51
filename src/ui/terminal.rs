@@ -65,7 +65,10 @@ impl Terminal {
                 terminal.next_animation_time += rng.gen_range(min..max);
 
                 // Append a character.
-                let c = terminal.next_character().unwrap();
+                let c = match terminal.next_character() {
+                    Some(c) => c,
+                    None => break,
+                };
 
                 let last_section = match text.sections.last_mut() {
                     Some(some) => some,
