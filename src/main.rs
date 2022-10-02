@@ -100,7 +100,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
     let terminal = commands
         .spawn_bundle(ui::TerminalBundle {
             terminal: ui::Terminal {
-                style: query_text_style.clone(),
+                style: query_text_style,
                 animated_text: String::from(
                     "An asteroid is going to hit us!\nQuick, what should we do?",
                 ),
@@ -194,7 +194,7 @@ fn story_loop(
     mut current_selection: ResMut<CurrentSelection>,
     mut remaining_time: ResMut<RemainingTime>,
     mut random: ResMut<Random>,
-    mut ui_elements: ResMut<UiElements>,
+    ui_elements: ResMut<UiElements>,
     dt: Res<Time>,
     mut query: Query<&mut ui::Terminal>,
 ) {
@@ -205,7 +205,17 @@ fn story_loop(
     }
     remaining_time.0 = 10.0;
     current_selection.0 = 0;
-    todo!("next story step");
+    let next_prompt = executor
+        .select_answer(current_selection.0, &mut *random)
+        .unwrap();
+    let mut terminal = query.get_mut(ui_elements.terminal).unwrap();
+    terminal.animated_text = next_prompt.request.clone();
+    terminal.animation_index = 0;
+    for (i, choice) in ui_elements.choices.iter().enumerate() {
+        let mut choice = query.get_mut(*choice).unwrap();
+        choice.animated_text = next_prompt.answers[i].text.clone();
+        choice.animation_index = 0;
+    }
 }
 
 fn keyboard_events(mut key_evr: EventReader<KeyboardInput>, mut windows: ResMut<Windows>) {
