@@ -3,21 +3,38 @@ use bevy::prelude::*;
 
 use rand::SeedableRng;
 
+use std::process::ExitCode;
+
 mod parsing;
+mod story;
 mod ui;
 
 /// The random number generator we are using.
 pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 
 /// The glorious entry point.
-fn main() {
+fn main() -> ExitCode {
     let p = match parsing::read_config() {
         Ok(p) => p,
         Err(e) => {
-            println!("Error reading config: {}", e);
-            return;
+            eprintln!("Error reading config: {e}");
+            return ExitCode::FAILURE;
         }
     };
+
+    let story = match story::parse_story("assets/story.json".as_ref()) {
+        Ok(ok) => ok,
+        Err(err) => {
+            eprintln!("error: {err}");
+            return ExitCode::FAILURE;
+        }
+    };
+
+    println!("{story:#?}");
+
+    let mut executor = story::StoryExecutor::from(story);
+    *executor.variables_mut().get_mut("crewmate_count") = 14;
+
     App::new()
         .insert_resource(WindowDescriptor {
             title: "PLACEHOLDER".to_string(),
@@ -26,6 +43,7 @@ fn main() {
             resizable: false,
             ..default()
         })
+        .insert_resource(executor)
         .insert_resource(Random::from_entropy())
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup_scene)
@@ -34,6 +52,8 @@ fn main() {
         .add_system(keyboard_events)
         .add_system(ui::Choice::select_choice_system)
         .run();
+
+    ExitCode::SUCCESS
 }
 
 fn setup_scene(mut commands: Commands, assets: Res<AssetServer>) {
