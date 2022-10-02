@@ -22,6 +22,14 @@ pub struct Config {
     pub window_size: WindowSize,
 }
 
+#[cfg(any(not(debug_assertions), target_arch = "wasm32"))]
+pub fn read_config() -> serde_json::Result<Config> {
+    let config = include_str!("../assets/config.json");
+    let config: Config = serde_json::from_str(config)?;
+    return Ok(config);
+}
+
+#[cfg(all(debug_assertions, not(target_arch = "wasm32")))]
 pub fn read_config() -> std::io::Result<Config> {
     use std::fs::File;
     // Some JSON input data as a &str. Maybe this comes from the user.
