@@ -1,19 +1,19 @@
-use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
+use bevy::{input::keyboard::KeyboardInput, ui::FocusPolicy};
 
 use rand::SeedableRng;
 
 use std::process::ExitCode;
 
 mod parsing;
+mod selected;
 mod story;
 mod ui;
 
+use selected::{CurrentSelection, Selector};
+
 /// The random number generator we are using.
 pub type Random = rand_xoshiro::Xoroshiro128StarStar;
-
-/// Index of the selected answer
-pub struct CurrentSelection(usize);
 
 /// Remaining time to answer (in seconds)
 pub struct RemainingTime(f32);
@@ -59,6 +59,7 @@ fn main() -> ExitCode {
         .add_system_to_stage(CoreStage::First, ui::Prev::<Interaction>::update_prev)
         .add_system(ui::Terminal::animate_system)
         .add_system(keyboard_events)
+        .add_system(Selector::update_system)
         .add_system(ui::Choice::select_choice_system)
         .add_system(story_loop)
         .run();
@@ -123,9 +124,28 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
         })
         .id();
 
-    // The first `ChoiceBundle` seems to be ignored by the input system. We don't have the time
+    // The first UI element seems to be ignored for some obscure reason. We don't have the time
     // to understand why. Quick fix: add an empty choice button at the begining.
-    commands.spawn_bundle(ui::ChoiceBundle::default());
+    commands.spawn_bundle(ui::ContainerBundle::default());
+
+    commands
+        .spawn_bundle(ImageBundle {
+            style: Style {
+                position_type: PositionType::Absolute,
+                position: UiRect {
+                    top: Val::Percent(0.0),
+                    left: Val::Percent(460.0 / 1896.0 * 100.0),
+                    ..default()
+                },
+                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
+                ..default()
+            },
+            image: UiImage(assets.load("select_marker.png")),
+            color: UiColor(Color::rgba(1.0, 1.0, 1.0, 0.2)),
+            focus_policy: FocusPolicy::Pass,
+            ..default()
+        })
+        .insert(Selector);
 
     let mut choice1 = Entity::from_raw(0); // TODO remove this hack
     commands

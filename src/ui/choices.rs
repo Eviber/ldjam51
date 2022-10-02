@@ -57,7 +57,6 @@ impl Choice {
                 } else {
                     selected_choice.0 = choice.0;
                 }
-                println!("selected choice: {}", selected_choice.0);
             }
         }
     }
