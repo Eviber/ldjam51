@@ -1,29 +1,36 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8" />
     <style>
         body {
-            background: linear-gradient(135deg,
-                    white 0%,
-                    white 49%,
-                    black 49%,
-                    black 51%,
-                    white 51%,
-                    white 100%);
-            background-repeat: repeat;
-            background-size: 20px 20px;
+            font-family: Roboto,"Helvetica Neue","Arial Nova","Segoe UI","Ubuntu Light",sans-serif;
+            background-color: #eef2f7;
             margin: 0;
+            display: grid;
+            grid-template-columns: 948px 1fr;
+            grid-template-rows: 533px 1fr;
+            align-items: center;
         }
 
         canvas {
             background-color: white;
         }
+
+        body * {
+            grid-area: 1/1;
+            text-align: center;
+        }
+
     </style>
 </head>
 <script type="module">
     import init from './target/ldjam51.js'
     init()
 </script>
+<body>
+	<p>Loading, please wait... :D</p>
+</body>
 
 </html>
