@@ -1,7 +1,13 @@
+use std::fs::File;
+use std::io;
+use std::io::BufReader;
+use std::path::Path;
+
 use serde::{Deserialize, Serialize};
 
 /// A function that may be executed on a variable.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
 pub enum Operation {
     /// Sets the variable to a specific value.
     Set,
@@ -11,8 +17,20 @@ pub enum Operation {
     Sub,
 }
 
+impl Operation {
+    /// Executes the operation on the provided value
+    pub fn execute(self, value: &mut i64, other: i64) {
+        match self {
+            Self::Set => *value = other,
+            Self::Add => *value += other,
+            Self::Sub => *value -= other,
+        }
+    }
+}
+
 /// A comparaison function.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
 pub enum Compare {
     /// The variable must equal a specific value.
     Equal,
@@ -24,13 +42,25 @@ pub enum Compare {
     More,
 }
 
+impl Compare {
+    /// Determines whether `value` `op` `other`.
+    pub fn check(self, value: i64, other: i64) -> bool {
+        match self {
+            Self::Equal => value == other,
+            Self::Not => value != other,
+            Self::Less => value < other,
+            Self::More => value > other,
+        }
+    }
+}
+
 /// A pre-condition for a specific [`Prompt`].
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Condition {
     /// The name of the variable that's being checked.
     pub name: String,
     /// The comparaison function.
-    pub cmd: Compare,
+    pub op: Compare,
     /// The value against which the variable is beging checked.
     pub value: i64,
 }
@@ -53,6 +83,7 @@ pub struct Answer {
     #[serde(default)]
     pub text: String,
     /// A collection of actions for this answer.
+    #[serde(default)]
     pub actions: Vec<Action>,
 }
 
@@ -85,4 +116,11 @@ pub struct Batch {
 pub struct Story {
     /// The batches that are to be presented to the player before ending the game.
     pub batches: Vec<Batch>,
+}
+
+/// Parses a [`Story`] instance at the provided path.
+pub fn parse_story(path: &Path) -> io::Result<Story> {
+    let file = BufReader::new(File::open(path)?);
+    let story = serde_json::from_reader(file)?;
+    Ok(story)
 }

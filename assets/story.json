@@ -1,0 +1,388 @@
+{
+    "batches" :
+	[
+        {
+            "random": false,
+            "prompts": 
+			[
+				{
+					"request": "You’ll need to make quick decisions in order to help, do you understand?",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Yes I do"
+                        },
+                        {
+                            "text": "It’s not like I have a choice anyway"
+                        }
+                    ]
+                },
+				{
+					"request": "Great! Then, quick, choose what the crew will eat tonight",
+                    "answers": [
+                        {},
+                        {
+                            "text": "The usual will do"
+                        },
+                        {
+                            "text": "Let’s make a feast!"
+                        }
+                    ]
+                },
+				{
+					"request": "Good job. Sometimes, the choice will have consequences, though.",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Huh, what kind of consequences?"
+                        },
+                        {
+                            "text": "That’s understandable"
+                        }
+                    ]
+                },
+				{
+					"request": "I guess there isn’t any question left so… good luck managing the ship, captain.",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Thank you"
+                        },
+                        {
+                            "text": "Wait, I have more questions!"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "random" : true,
+            "prompts" : 
+			[
+				{
+					"request": "The map of the stars isn’t really up to date anymore, should we do something about it?",
+                    "answers": [
+                        {
+                            "actions": [{
+                                "name": "no-map",
+                                "op": "set",
+                                "value": 1
+                            }]
+                        },
+                        {
+                            "text": "Let’s buy a new one"
+                        },
+                        {
+                            "text": "We’ll update the map ourselves"
+                        }
+                    ]
+                },
+				{
+					"request": "A crew member would like to change their job, but they’ll need a formation before being ready for it, should we authorize it?",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Yes !"
+                        },
+                        {
+                            "text": "No"
+                        }
+                    ]
+                },
+				{
+					"request": "It’s Celebration-day, the ship departed from Home a year ago.",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Time to Party!"
+                        },
+                        {
+                            "text": "It’s just another day, in the end"
+                        }
+                    ]
+                },
+				{
+					"request": "Some crew members are role-playing and want to know if you’d like to play a patron deity for one of them",
+                    "answers": [
+                        {},
+                        {
+                            "text": "I’ll guide the mortal in their adventure"
+                        },
+                        {
+                            "text": "I have responsibilities, no thank you"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "random" : true,
+            "prompts" : 
+			[
+				{
+                    "if": {
+                        "name": "no-map",
+                        "op": "equal",
+                        "value": 1
+                    },
+					"request": "The food is getting low, and our map outdated. We need to stop somewhere, before the crew is forced to ration.",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Let’s try to find a place to buy food"
+                        },
+                        {
+                            "text": "They’ll need to ration until we find a spaceport"
+                        }
+                    ]
+                },
+				{
+                    "if": {
+                        "name": "no-map",
+                        "op": "not",
+                        "value": 1
+                    },
+					"request": "We need to buy food. According to the map, we can go to a nearby planet, or wait for the next spaceport",
+                    "answers": [
+                        {},
+                        {
+                            "text": "We’ll wait a bit, they’ll ration out until then"
+                        },
+                        {
+                            "text": "Full steam ahead for the nearest planet!"
+                        }
+                    ]
+                },
+				{
+					"request": "A couple would like your blessing for their marriage",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Granted! Be happy you little lovebirds!"
+                        },
+                        {
+                            "text": "Ew, disgusting, out of my sight!"
+                        }
+                    ]
+                },
+				{
+					"request": "Another ship will be passing us by soon",
+                    "answers": [
+                        {},
+                        {
+                            "text": "We’ll arrange a meeting, it’ll be interesting"
+                        },
+                        {
+                            "text": "Let’s just send a hello and continue on our way"
+                        }
+                    ]
+                },
+				{
+					"request": "The crew is requesting a decoration change for their private quarter",
+                    "answers": [
+                        {},
+                        {
+                            "text": "I’ll authorize it, but don’t go crazy"
+                        },
+                        {
+                            "text": "If anyone tries to change the wall color, I’ll ship them into space!"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "random" : false,
+            "prompts" : 
+			[
+				{
+					"request": "An asteroid is going to hit us! Quick, what should we do?",
+                    "answers": [
+                        {
+                            "actions": [{
+                                "name": "asteroid_hit",
+                                "op": "set",
+                                "value": 1
+                            }]
+                        },
+                        {
+                            "text": "Send a rocket and explode it",
+                            "actions": [{
+                                "name": "rocket",
+                                "op": "set",
+                                "value": 1
+                            }]
+                        },
+                        {
+                            "text": "Change direction to avoid it",
+                            "actions": [{
+                                "name": "avoid",
+                                "op": "set",
+                                "value": 1
+                            }]
+                        }
+                    ]
+                },
+				{
+                    "if": {
+                        "name": "rocket",
+                        "op": "equal",
+                        "value": 1
+                    },
+					"request": "The asteroid was destroyed but some debris will still hit us",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Fire at them, try to narrow the damages"
+                        },
+                        {
+                            "text": "We’ll avoid most of it and fix what will be broken",
+                            "actions": [{
+                                "name": "avoid",
+                                "op": "set",
+                                "value": 1
+                            }]
+                        }
+                    ]
+                },
+				{
+                    "if": {
+                        "name": "avoid",
+                        "op": "equal",
+                        "value": 1
+                    },
+					"request": "We were hit, but we avoided most of it. The ship will need to be repaired as soon as possible",
+                    "answers": [
+                        {
+                            "actions": [{
+                                "name": "crewmate_lost",
+                                "op": "set",
+                                "value": 1
+                            },
+                            {
+                                "name": "crewmate_count",
+                                "op": "sub",
+                                "value": 3
+                            }]
+                        },
+                        {
+                            "text": "Send robots and crewmembers out to repair it",
+                            "actions": [{
+                                "name": "crewmate_lost",
+                                "op": "set",
+                                "value": 1
+                            },
+                            {
+                                "name": "crewmate_count",
+                                "op": "sub",
+                                "value": 1
+                            }]
+                        },
+                        {
+                            "text": "Send a distress signal and wait for the rescue",
+                            "actions": [{
+                                "name": "distress_signal",
+                                "op": "set",
+                                "value": 1
+                            }]
+                        }
+                    ]
+                },
+				{
+                    "if": {
+                        "name": "asteroid_hit",
+                        "op": "equal",
+                        "value": 1
+                    },
+					"request": "The asteroid hit us pretty hard, we need to do something to save as many people as possible",
+                    "answers": [
+                        {
+                            "actions": [{
+                                "name": "crewmate_lost",
+                                "op": "set",
+                                "value": 1
+                            },
+                            {
+                                "name": "crewmate_count",
+                                "op": "sub",
+                                "value": 5
+                            }]
+                        },
+                        {
+                            "text": "Send robots and crewmembers out to repair the ship",
+                            "actions": [{
+                                "name": "crewmate_lost",
+                                "op": "set",
+                                "value": 1
+                            },
+                            {
+                                "name": "crewmate_count",
+                                "op": "sub",
+                                "value": 3
+                            }]
+                        },
+                        {
+                            "text": "Send a distress signal and wait for the rescue",
+                            "actions": [{
+                                "name": "distress_signal",
+                                "op": "set",
+                                "value": 1
+                            }]
+                        }
+                    ]
+                },
+				{
+                    "if": {
+                        "name": "distress_signal",
+                        "op": "equal",
+                        "value": 1
+                    },
+					"request": "The cavalry's here, finally!",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Save the ship first!"
+                        },
+                        {
+                            "text": "Save the crew first"
+                        }
+                    ]
+                },
+				{
+                    "if": {
+                        "name": "crewmate_lost",
+                        "op": "not",
+                        "value": 1
+                    },
+					"request": "Good job captain, the worst is behind us now",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Let’s celebrate!"
+                        },
+                        {
+                            "text": "We should find a spaceport and rest"
+                        }
+                    ]
+                },
+				{
+                    "if": {
+                        "name": "crewmate_lost",
+                        "op": "equal",
+                        "value": 1
+                    },
+					"request": "At least, it’s behind us now…",
+                    "answers": [
+                        {},
+                        {
+                            "text": "Let’s find a spaceport and rest"
+                        },
+                        {
+                            "text": "We’ll honor the dead today and rest tomorrow"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
