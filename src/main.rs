@@ -453,10 +453,10 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
     let mut terminal = Entity::from_raw(0); // TODO remove this hack
     let mut timer = Entity::from_raw(0); // TODO remove this hack
 
-    let X1 = std::env::args().nth(1).unwrap().parse::<f32>().unwrap();
-    let Y1 = std::env::args().nth(2).unwrap().parse::<f32>().unwrap();
-    let X2 = std::env::args().nth(3).unwrap().parse::<f32>().unwrap();
-    let Y2 = std::env::args().nth(4).unwrap().parse::<f32>().unwrap();
+    let X1 = 230.0;
+    let Y1 = 335.0;
+    let X2 = 230.0;
+    let Y2 = 407.0;
 
     commands
         .spawn_bundle(ImageBundle {
@@ -682,12 +682,12 @@ fn keyboard_events(
                         WindowMode::Windowed
                     });
                 }
-                Some(KeyCode::Space) => {
-                    time.0 += 5.0;
-                }
-                Some(KeyCode::Return) => {
-                    time.0 = 0.0;
-                }
+                // Some(KeyCode::Space) => {
+                //     time.0 += 5.0;
+                // }
+                // Some(KeyCode::Return) => {
+                //     time.0 = 0.0;
+                // }
                 _ => {}
             },
         }
