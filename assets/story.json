@@ -183,7 +183,14 @@
                      
                   },
                   {
-                     "text":"Granted! Be happy you little lovebirds!"
+                     "text":"Granted! Be happy you little lovebirds!",
+                     "actions": [
+                        {
+                           "name": "maried-a-couple",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
                   },
                   {
                      "text":"Ew, disgusting, out of my sight!"
@@ -435,6 +442,482 @@
                   },
                   {
                      "text":"We’ll honor the dead today and rest tomorrow"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "random": true,
+         "prompts": [
+            {
+               "request": "It appears that a crew member came back drunk and caused a mess in the quarters. What should we do?",
+               "answers": [
+                  {},
+                  {
+                     "text": "Bring them water and food, and let them rest"         
+                  },
+                  {
+                     "text": "They'll have to clean the mess themselves"
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "married-a-couple",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "The couple that you blessed is asking for private quarters just for the two of them",
+               "answers": [
+                  {},
+                  {
+                     "text": "We can't accept that, sorry"
+                  },
+                  {
+                     "text": "Sure, why not, give them a room!"
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "married-a-couple",
+                  "op": "not",
+                  "value": 1
+               },
+               "request": "The couple that wanted to marry is asking again for you blessing. They'll leave if you don't give it to them!",
+               "answers": [
+                  {},
+                  {
+                     "text": "We'll drop them on our next stop, I don't care",
+                     "actions": [
+                        {
+                           "name": "crewmate_count",
+                           "op": "sub",
+                           "value": 2
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Since I have no choice, I'll accept."
+                  }
+               ]
+            },
+            {
+               "request": "Some crew members are complaining about smell every time they come here",
+               "answers": [
+                  {},
+                  {
+                     "text": "... I should probably take a shower"
+                  },
+                  {
+                     "text": "It's cleaning day! Everyone on the bridge!"
+                  }
+               ]
+            },
+            {
+               "request": "sdlfgh lk j wgkldsfkjghh sdfkjgghse8rrdf3jk3 h3",
+               "answers": [
+                  {},
+                  {
+                     "text": "Can someone get that cat out of the room?!"
+                  },
+                  {
+                     "text": "You're absolutly right!"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "random": true,
+         "prompts": [
+            {
+               "request": "Radioactive liquid seems to be leaking from the reactor's core",
+               "answers": [
+                  {},
+                  {
+                     "text": "Stop everything and send someone to fix to"
+                  },
+                  {
+                     "text": "Just clean the liquid, it can wait until the next stop"
+                  }
+               ]
+            },
+            {
+               "request": "It seems that we have a stowaway. What should we do with them?",
+               "answers": [
+                  {},
+                  {
+                     "text": "Throw them out of the ship! They can't stay among us."
+                  },
+                  {
+                     "text": "Lock them up, we will leave them at the next station"
+                  }
+               ]
+            },
+            {
+               "request": "I'll take a cheeseburger, large coke, french fries and a chocolate milkshake.",
+               "answers": [
+                  {},
+                  {
+                     "text": "Right away sir!"
+                  },
+                  {
+                     "text": "I already told you to stop using that channel for food!"
+                  }
+               ]
+            },
+            {
+               "request": "We are getting a call from a certain \"Lord Vader\", should we answer?",
+               "answers": [
+                  {},
+                  {
+                     "text": "It's probably a prank, just ignore it."
+                  },
+                  {
+                     "text": "These ain't the droids you're looking for."
+                  }
+               ]
+            },
+            {
+               "request": "The ship's sensors detected a supernova a few light years away. The crew would like to see the show.",
+               "answers": [
+                  {},
+                  {
+                     "text": "Sure, why not."
+                  },
+                  {
+                     "text": "We don't have time for pretty lights."
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "random": false,
+         "prompts": [
+            {
+               "request": "PIRATES!!! Shields will not last long!",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "pirates-are-coming-1",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Concact them, tell them we want to negotiate.",
+                     "actions": [
+                        {
+                           "name": "negociate-with-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Full power to the weapon system, Photon Cannon engaged!",
+                     "actions": [
+                        {
+                           "name": "fight-the-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "pirates-are-coming-1",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "They're getting really close! What do we do??",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "boarding-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Photon Cannon engaged! Blast them off!!",
+                     "actions": [
+                        {
+                           "name": "fire-anyway",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Prepare to be boarded!",
+                     "actions": [
+                        {
+                           "name": "boarding-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "negociate-with-pirates",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "They're slavers! They want us to send five of our prisoners.",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "pirates-are-coming-2",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Sorry, we can't affort to fight them",
+                     "actions": [
+                        {
+                           "name": "surrender-to-the-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "We're not abandoning our friends! Prepare the cannon!",
+                     "actions": [
+                        {
+                           "name": "fight-the-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "pirates-are-comming-2",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "They sent a message! \"You choose not to comply\"",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "game-end-state",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Prepare to be boarded!",
+                     "actions": [
+                        {
+                           "name": "boarding-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Full power to the weapon system!",
+                     "actions": [
+                        {
+                           "name": "fighting-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "surrender-to-the-pirates",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "A crewmate volunteers to be a prisoner. He proposes to hide an emergency beacon in his pocket to alert the authorities.",
+               "answers": [
+                  {},
+                  {
+                     "text": "You're a true hero."
+                  },
+                  {
+                     "text": "Too dangerous. Just send them the prisoners"
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "fight-the-pirates",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "Our Photon Cannon shattered their shield but they're way to close for another blast!",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "pirates-were-defeated",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Shoot at them anyway!",
+                     "actions": [
+                        {
+                           "name": "fire-anyway",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Take weapons, prepare to be boarded!",
+                     "actions": [
+                        {
+                           "name": "boarding-pirates",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "fire-anyway",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "Target destroyed! But the shockwave hit us violently, we have casualties.",
+               "answers": [
+                  {},
+                  {
+                     "text": "I'm sorry, but there was no other choice"
+                  },
+                  {
+                     "text": "They died as heroes, we will honor them."
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "boarding-pirates",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "They are entering the ship! What do we do??",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "pirates-are-coming-3",
+                           "op": "set",
+                           "value": 1
+                        },
+                        {
+                           "name": "crewmate_count",
+                           "op": "sub",
+                           "value": 5
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Prepare an ambush in the main hall!",
+                     "actions": [
+                        {
+                           "name": "pirates-were-defeated",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Don't be scared! They're just pirates!",
+                     "actions": [
+                        {
+                           "name": "pirates-were-defeated-2",
+                           "op": "set",
+                           "value": 1
+                        },
+                        {
+                           "name": "crewmate_count",
+                           "op": "sub",
+                           "value": 2
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "pirates-are-coming-3",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "Damn slavers, they captured some of us and let the rest get away...",
+               "answers": [
+                  {},
+                  {
+                     "text": "Damn pirates..."
+                  },
+                  {
+                     "text": "I'm sorry..."
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "pirates-were-defeated",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "We did it! They retreated! Everyone is safe!",
+               "answers": [
+                  {},
+                  {
+                     "text": "Great, take a rest, you deserved it!"
+                  },
+                  {
+                     "text": "Greate, now clean this mess."
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "pirates-were-defeated-3",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "We won! They are fleeing, be we have casualties...",
+               "answers": [
+                  {},
+                  {
+                     "text": "Damn pirates..."
+                  },
+                  {
+                     "text": "I'm sorry."
                   }
                ]
             }
