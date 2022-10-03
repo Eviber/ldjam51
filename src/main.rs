@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy::{input::keyboard::KeyboardInput, ui::FocusPolicy};
+use bevy_kira_audio::prelude::*;
 
 use rand::SeedableRng;
 
@@ -55,7 +56,9 @@ fn main() -> ExitCode {
         .insert_resource(story::StoryExecutor::from(story))
         .insert_resource(Random::from_entropy())
         .add_plugins(DefaultPlugins)
+        .add_plugin(AudioPlugin)
         .add_startup_system(setup_scene)
+        .add_startup_system(play_audio)
         .add_system_to_stage(CoreStage::First, ui::Prev::<Interaction>::update_prev)
         .add_system(ui::Terminal::animate_system)
         .add_system(keyboard_events)
@@ -65,6 +68,15 @@ fn main() -> ExitCode {
         .run();
 
     ExitCode::SUCCESS
+}
+
+fn play_audio(asset_server: Res<AssetServer>, audio: Res<Audio>) {
+    audio
+        .play(asset_server.load("mainmenu.ogg"))
+        // The first 0.5 seconds will not be looped and are the "intro"
+        .loop_from(20.0);
+    // Fade-in with a dynamic easing
+    // .fade_in(AudioTween::new( Duration::from_secs(2), AudioEasing::OutPowi(2),))
 }
 
 fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {

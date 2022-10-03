@@ -9,8 +9,29 @@ opt-level = 1
 [profile.dev.package."*"]
 opt-level = 3
 
+[dependencies.bevy]
+version = "0.8"
+default-features = false
+# These are the remaining default features other than `bevy_audio` and `vorbis`
+features = [
+	"render",
+	"animation",
+	"bevy_asset",
+	"bevy_scene",
+	"bevy_winit",
+	"bevy_gilrs",
+	"png",
+	"hdr",
+	"filesystem_watcher",
+	"x11",
+	# end of default features
+	"jpeg"
+]
+
+[dependencies.bevy_kira_audio]
+version = "0.12"
+
 [dependencies]
-bevy = { version = "0.8", features = ["jpeg"] }
 # Random Number Generator
 #  `rand` is a common interface to generate random numbers. Given a specific random number
 #  generator, it is able to generate random data of virtually any type.
