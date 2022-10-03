@@ -81,6 +81,11 @@ fn play_audio(asset_server: Res<AssetServer>, audio: Res<Audio>) {
     // .fade_in(AudioTween::new( Duration::from_secs(2), AudioEasing::OutPowi(2),))
 }
 
+const BAR_W: f32 = 191.0;
+const BAR_X: f32 = 26.0;
+const BAR_Y: f32 = 11.0;
+const BAR_H: f32 = 16.0;
+
 fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {
     let terminal_font = assets.load("RobotoMono-Medium.ttf");
 
@@ -106,6 +111,11 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
         ..default()
     };
 
+    let mut choice1 = Entity::from_raw(0); // TODO remove this hack
+    let mut choice2 = Entity::from_raw(0); // TODO remove this hack // TODO: don't remove it it's cool // TODO ok maybe don't remove it
+    let mut terminal = Entity::from_raw(0); // TODO remove this hack
+    let mut timer = Entity::from_raw(0); // TODO remove this hack
+
     commands
         .spawn_bundle(ImageBundle {
             style: style.clone(),
@@ -125,152 +135,144 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                         image: UiImage(assets.load("NewNeonFrame.png")),
                         ..default()
                     });
-                });
-        });
-
-    commands
-        .spawn_bundle(ImageBundle {
-            style: Style {
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    top: Val::Percent(0.0),
-                    left: Val::Percent(460.0 / 1896.0 * 100.0),
-                    ..default()
-                },
-                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
-                ..default()
-            },
-            image: UiImage(assets.load("select_marker.png")),
-            color: UiColor(Color::rgba(1.0, 1.0, 1.0, 0.2)),
-            ..default()
-        })
-        .insert(Selector);
-
-    let mut choice1 = Entity::from_raw(0); // TODO remove this hack
-    commands
-        .spawn_bundle(ui::ChoiceBundle {
-            choice: ui::Choice(1),
-            style: Style {
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    left: Val::Percent(460.0 / 1896.0 * 100.0),
-                    top: Val::Percent(770.0 / 1066.0 * 100.0),
-                    ..default()
-                },
-                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
-                ..default()
-            },
-            ..default()
-        })
-        .with_children(|children| {
-            choice1 = children
-                .spawn_bundle(ui::TerminalBundle {
-                    terminal: ui::Terminal {
-                        style: button_text_style.clone(),
-                        animated_text: prompt.answers[1].text.clone(),
-                        animation_index: 0,
-                        animation_period_range: (0.02, 0.04),
-                        next_animation_time: 0.0,
-                    },
-                    text: TextBundle { ..default() },
                 })
-                .id();
-        });
-
-    let mut choice2 = Entity::from_raw(0); // TODO remove this hack // TODO: don't remove it it's cool // TODO ok maybe don't remove it
-    commands
-        .spawn_bundle(ui::ChoiceBundle {
-            choice: ui::Choice(2),
-            style: Style {
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    left: Val::Percent(460.0 / 1896.0 * 100.0),
-                    top: Val::Percent(860.0 / 1066.0 * 100.0),
-                    ..default()
-                },
-                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
-                ..default()
-            },
-            ..default()
-        })
-        .with_children(|children| {
-            choice2 = children
-                .spawn_bundle(ui::TerminalBundle {
-                    terminal: ui::Terminal {
-                        style: button_text_style.clone(),
-                        animated_text: prompt.answers[2].text.clone(),
-                        animation_index: 0,
-                        animation_period_range: (0.02, 0.04),
-                        next_animation_time: 0.0,
-                    },
-                    ..default()
-                })
-                .id();
-        });
-
-    let terminal = commands
-        .spawn_bundle(ui::TerminalBundle {
-            terminal: ui::Terminal {
-                style: query_text_style,
-                animated_text: prompt.request.clone(),
-                animation_index: 0,
-                animation_period_range: (0.02, 0.04),
-                next_animation_time: 0.0,
-            },
-            text: TextBundle {
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    position: UiRect {
-                        left: Val::Percent(460.0 / 1896.0 * 100.0),
-                        top: Val::Px(85.0),
-                        ..default()
-                    },
-                    max_size: Size::new(Val::Px(460.0), Val::Px(250.0)),
-                    ..default()
-                },
-                ..default()
-            },
-        })
-        .id();
-
-    let mut timer = Entity::from_raw(0); // TODO remove this hack
-    commands
-        .spawn_bundle(ImageBundle {
-            style: Style {
-                size: Size::new(Val::Percent(50.0), Val::Px(50.0)),
-                position_type: PositionType::Absolute,
-                position: UiRect {
-                    left: Val::Percent(25.0),
-                    bottom: Val::Px(0.0),
-                    ..default()
-                },
-                ..default()
-            },
-            image: UiImage(assets.load("loading.png")),
-            ..default()
-        })
-        .with_children(
-            // create a child entity for the loading bar
-            // this is a simple rectangle that will be scaled
-            |parent| {
-                timer = parent
-                    .spawn_bundle(ImageBundle {
-                        style: Style {
-                            size: Size::new(Val::Px(443.0), Val::Percent(49.0 / 81.0 * 100.0)),
-                            position_type: PositionType::Relative,
-                            position: UiRect {
-                                left: Val::Percent(37.0 / 1122.0 * 100.0),
-                                top: Val::Px(-10.0),
+                .with_children(|parent| {
+                    parent
+                        .spawn_bundle(ImageBundle {
+                            style: Style {
+                                position_type: PositionType::Absolute,
+                                position: UiRect {
+                                    top: Val::Percent(0.0),
+                                    left: Val::Percent(460.0 / 1896.0 * 100.0),
+                                    ..default()
+                                },
+                                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
                                 ..default()
                             },
+                            image: UiImage(assets.load("select_marker.png")),
+                            color: UiColor(Color::rgba(1.0, 1.0, 1.0, 0.2)),
+                            ..default()
+                        })
+                        .insert(Selector);
+                    timer = parent
+                        .spawn_bundle(ImageBundle {
+                            style: Style {
+                                size: Size::new(Val::Px(BAR_W), Val::Px(BAR_H)),
+                                position_type: PositionType::Absolute,
+                                position: UiRect {
+                                    left: Val::Px(488.0 + BAR_X),
+                                    top: Val::Px(275.0 + BAR_Y),
+                                    ..default()
+                                },
+                                ..default()
+                            },
+                            image: UiImage(assets.load("bar.png")),
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            parent.spawn_bundle(ImageBundle {
+                                style: Style {
+                                    size: Size::new(Val::Px(484.0 / 2.0), Val::Px(76.0 / 2.0)),
+                                    position_type: PositionType::Absolute,
+                                    position: UiRect {
+                                        left: Val::Px(0.0 - BAR_X),
+                                        top: Val::Px(0.0 - BAR_Y),
+                                        ..default()
+                                    },
+                                    ..default()
+                                },
+                                image: UiImage(assets.load("Timer.png")),
+                                ..default()
+                            });
+                        })
+                        .id();
+                });
+
+            parent
+                .spawn_bundle(ui::ChoiceBundle {
+                    choice: ui::Choice(1),
+                    style: Style {
+                        position_type: PositionType::Absolute,
+                        position: UiRect {
+                            left: Val::Percent(460.0 / 1896.0 * 100.0),
+                            top: Val::Percent(770.0 / 1066.0 * 100.0),
                             ..default()
                         },
-                        image: UiImage(assets.load("bar.png")),
+                        size: Size::new(Val::Px(490.0), Val::Px(28.0)),
                         ..default()
-                    })
-                    .id();
-            },
-        );
+                    },
+                    ..default()
+                })
+                .with_children(|children| {
+                    choice1 = children
+                        .spawn_bundle(ui::TerminalBundle {
+                            terminal: ui::Terminal {
+                                style: button_text_style.clone(),
+                                animated_text: prompt.answers[1].text.clone(),
+                                animation_index: 0,
+                                animation_period_range: (0.02, 0.04),
+                                next_animation_time: 0.0,
+                            },
+                            text: TextBundle { ..default() },
+                        })
+                        .id();
+                });
+
+            parent
+                .spawn_bundle(ui::ChoiceBundle {
+                    choice: ui::Choice(2),
+                    style: Style {
+                        position_type: PositionType::Absolute,
+                        position: UiRect {
+                            left: Val::Percent(460.0 / 1896.0 * 100.0),
+                            top: Val::Percent(860.0 / 1066.0 * 100.0),
+                            ..default()
+                        },
+                        size: Size::new(Val::Px(490.0), Val::Px(28.0)),
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|children| {
+                    choice2 = children
+                        .spawn_bundle(ui::TerminalBundle {
+                            terminal: ui::Terminal {
+                                style: button_text_style.clone(),
+                                animated_text: prompt.answers[2].text.clone(),
+                                animation_index: 0,
+                                animation_period_range: (0.02, 0.04),
+                                next_animation_time: 0.0,
+                            },
+                            ..default()
+                        })
+                        .id();
+                });
+
+            terminal = parent
+                .spawn_bundle(ui::TerminalBundle {
+                    terminal: ui::Terminal {
+                        style: query_text_style,
+                        animated_text: prompt.request.clone(),
+                        animation_index: 0,
+                        animation_period_range: (0.02, 0.04),
+                        next_animation_time: 0.0,
+                    },
+                    text: TextBundle {
+                        style: Style {
+                            position_type: PositionType::Absolute,
+                            position: UiRect {
+                                left: Val::Percent(460.0 / 1896.0 * 100.0),
+                                top: Val::Px(85.0),
+                                ..default()
+                            },
+                            max_size: Size::new(Val::Px(460.0), Val::Px(250.0)),
+                            ..default()
+                        },
+                        ..default()
+                    },
+                })
+                .id();
+        });
 
     commands.insert_resource(UiElements {
         terminal,
@@ -354,5 +356,5 @@ fn update_timer(
     mut ui_query: Query<&mut Style>,
 ) {
     let mut bar = ui_query.get_mut(ui_elements.timer).unwrap();
-    bar.size.width = Val::Px(443.0 * timer.0 / 10.0);
+    bar.size.width = Val::Px(BAR_W * timer.0 / 10.0);
 }
