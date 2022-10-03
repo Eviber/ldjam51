@@ -112,6 +112,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
 
     commands.spawn_bundle(ui::ContainerBundle::default());
     commands.spawn_bundle(ui::ContainerBundle::default());
+    commands.spawn_bundle(ui::ContainerBundle::default());
 
     commands
         .spawn_bundle(ImageBundle {
