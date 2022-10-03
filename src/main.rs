@@ -100,19 +100,33 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
 
     let prompt = story.get_current_prompt().unwrap();
 
-    commands.spawn_bundle(ImageBundle {
-        style: Style {
-            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
-            position_type: PositionType::Absolute,
-            ..default()
-        },
-        image: UiImage(assets.load("bg.jpg")),
+    let style = Style {
+        size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+        position_type: PositionType::Absolute,
         ..default()
-    });
+    };
 
-    commands.spawn_bundle(ui::ContainerBundle::default());
-    commands.spawn_bundle(ui::ContainerBundle::default());
-    commands.spawn_bundle(ui::ContainerBundle::default());
+    commands
+        .spawn_bundle(ImageBundle {
+            style: style.clone(),
+            image: UiImage(assets.load("BackgroundStarsLoop.png")),
+            ..default()
+        })
+        .with_children(|parent| {
+            parent
+                .spawn_bundle(ImageBundle {
+                    style: style.clone(),
+                    image: UiImage(assets.load("glass.png")),
+                    ..default()
+                })
+                .with_children(|parent| {
+                    parent.spawn_bundle(ImageBundle {
+                        style,
+                        image: UiImage(assets.load("NewNeonFrame.png")),
+                        ..default()
+                    });
+                });
+        });
 
     commands
         .spawn_bundle(ImageBundle {
