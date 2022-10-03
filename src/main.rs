@@ -104,6 +104,8 @@ fn audio_credits(audio: Res<Audio>, audio_assets: Res<Vec<Handle<AudioSource>>>)
     audio.play(audio_assets[1].clone()).looped();
 }
 
+const VOLUME: f64 = 0.1;
+
 fn audio_game(
     mut audio: ResMut<DynamicAudioChannels>,
     mut audio_flag: ResMut<AudioFlag>,
@@ -122,27 +124,27 @@ fn audio_game(
                         audio
                             .create_channel("a2")
                             .play(audio_assets[7].clone())
-                            .with_volume(0.5);
+                            .with_volume(VOLUME);
                     }
                     2 => {
                         audio
                             .create_channel("a3")
                             .play(audio_assets[3].clone())
-                            .with_volume(0.5);
+                            .with_volume(VOLUME);
                         audio
                             .create_channel("c3")
                             .play(audio_assets[7].clone())
-                            .with_volume(0.5);
+                            .with_volume(VOLUME);
                     }
                     3 => {
                         audio
                             .create_channel("a4")
                             .play(audio_assets[3].clone())
-                            .with_volume(0.5);
+                            .with_volume(VOLUME);
                         audio
                             .create_channel("b4")
                             .play(audio_assets[7].clone())
-                            .with_volume(0.5);
+                            .with_volume(VOLUME);
                     }
                     _ => {}
                 }
@@ -152,61 +154,61 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b1")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c1")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b2")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b3")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b4")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -215,61 +217,61 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b1")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c1")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b2")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d2")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b4")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -278,71 +280,71 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b1")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c1")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b2")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b4")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 4 => {
                     audio
                         .create_channel("a5")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b5")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c5")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -351,85 +353,85 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b1")
                         .play(audio_assets[12].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c1")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b4")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 4 => {
                     audio
                         .create_channel("a5")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b5")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c5")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d5")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 5 => {
                     audio
                         .create_channel("a6")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b6")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c6")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -438,71 +440,71 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b1")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c1")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b2")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b4")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 4 => {
                     audio
                         .create_channel("a5")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b5")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c5")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -511,57 +513,57 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b1")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c1")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b2")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -570,71 +572,71 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b1")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c1")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b2")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b4")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 4 => {
                     audio
                         .create_channel("a5")
                         .play(audio_assets[4].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b5")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c5")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -643,159 +645,159 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[13].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d4")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 4 => {
                     audio
                         .create_channel("a5")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c5")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d5")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 5 => {
                     audio
                         .create_channel("a6")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c6")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d6")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 6 => {
                     audio
                         .create_channel("a7")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b7")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c7")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d7")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 7 => {
                     audio
                         .create_channel("a8")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b8")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c8")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d8")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 8 => {
                     audio
                         .create_channel("a9")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b9")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c9")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d9")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 9 => {
                     audio
                         .create_channel("a10")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b10")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c10")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d10")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 10 => {
                     audio
                         .create_channel("a11")
                         .play(audio_assets[3].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b11")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c11")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d11")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
@@ -804,83 +806,83 @@ fn audio_game(
                     audio
                         .create_channel("a1")
                         .play(audio_assets[12].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 1 => {
                     audio
                         .create_channel("a2")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b2")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c2")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 2 => {
                     audio
                         .create_channel("a3")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("b3")
                         .play(audio_assets[8].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c3")
                         .play(audio_assets[10].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 3 => {
                     audio
                         .create_channel("a4")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c4")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 4 => {
                     audio
                         .create_channel("a5")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c5")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d5")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 5 => {
                     audio
                         .create_channel("a6")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("c6")
                         .play(audio_assets[7].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d6")
                         .play(audio_assets[9].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 6 => {
                     audio
                         .create_channel("a7")
                         .play(audio_assets[5].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                     audio
                         .create_channel("d7")
                         .play(audio_assets[6].clone())
-                        .with_volume(0.5);
+                        .with_volume(VOLUME);
                 }
                 _ => {}
             },
