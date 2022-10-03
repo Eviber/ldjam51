@@ -240,10 +240,10 @@ fn story_loop(
         return;
     }
     remaining_time.0 = 10.0;
-    current_selection.0 = 0;
     let next_prompt = executor
         .select_answer(current_selection.0, &mut *random)
         .unwrap();
+    current_selection.0 = 0;
     let (mut terminal, mut text) = query.get_mut(ui_elements.terminal).unwrap();
     terminal.animated_text = next_prompt.request.clone();
     terminal.animation_index = 0;
@@ -262,7 +262,11 @@ fn story_loop(
     }
 }
 
-fn keyboard_events(mut key_evr: EventReader<KeyboardInput>, mut windows: ResMut<Windows>) {
+fn keyboard_events(
+    mut key_evr: EventReader<KeyboardInput>,
+    mut windows: ResMut<Windows>,
+    mut time: ResMut<RemainingTime>,
+) {
     use bevy::input::ButtonState;
     use bevy::window::WindowMode;
 
@@ -270,15 +274,22 @@ fn keyboard_events(mut key_evr: EventReader<KeyboardInput>, mut windows: ResMut<
     for ev in key_evr.iter() {
         match ev.state {
             ButtonState::Pressed => {}
-            ButtonState::Released => {
-                if let Some(KeyCode::F) = ev.key_code {
+            ButtonState::Released => match ev.key_code {
+                Some(KeyCode::F) => {
                     window.set_mode(if window.mode() == WindowMode::Windowed {
                         WindowMode::Fullscreen
                     } else {
                         WindowMode::Windowed
                     });
                 }
-            }
+                Some(KeyCode::Space) => {
+                    time.0 += 5.0;
+                }
+                Some(KeyCode::Return) => {
+                    time.0 = 0.0;
+                }
+                _ => {}
+            },
         }
     }
 }

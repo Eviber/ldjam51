@@ -30,14 +30,15 @@ impl StoryExecutor {
 
         // Find out which prompt should be used next.
         loop {
-            let batch = self.story.batches.get_mut(self.current_batch)?;
+            let mut batch = self.story.batches.get_mut(self.current_batch)?;
 
-            self.current_prompt += 1;
-            if self.current_prompt >= batch.prompts.len() {
+            if self.current_prompt + 1 >= batch.prompts.len() {
                 // The batch has been exhausted.
                 self.current_batch += 1;
                 self.current_prompt = 0;
-                continue;
+                batch = self.story.batches.get_mut(self.current_batch)?;
+            } else {
+                self.current_prompt += 1;
             }
 
             if batch.randomized {
@@ -53,7 +54,6 @@ impl StoryExecutor {
                     .op
                     .check(self.variables.get(&pre_condition.name), pre_condition.value)
                 {
-                    self.current_prompt += 1;
                     continue;
                 }
             }
