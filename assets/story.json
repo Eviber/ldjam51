@@ -11,58 +11,111 @@
          "random":false,
          "prompts":[
             {
-               "request":"You’ll need to make quick decisions in order to help, do you understand?",
+               "request":"Hello, captain.",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"Yes I do"
+                     "text":"Hi?"
                   },
                   {
-                     "text":"It’s not like I have a choice anyway"
+                     "text":"Who are you?"
                   }
                ]
             },
             {
-               "request":"Great! Then, quick, choose what the crew will eat tonight",
+               "request":"I'm Proxima, I'm an AI.",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"The usual will do"
+                     "text":"What's your purpose?"
                   },
                   {
-                     "text":"Let’s make a feast!"
+                     "text":"Nice to meet you?"
                   }
                ]
             },
             {
-               "request":"Good job. Sometimes, the choice will have consequences, though.",
+               "request":"I'm here to help you take care of the ship and the crew. You'll just have to make a choice and I'll handle the rest.",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"Huh, what kind of consequences?"
+                     "text":"Doable"
                   },
                   {
-                     "text":"That’s understandable"
+                     "text":"I'm not sure that I understand everything..."
                   }
                ]
             },
             {
-               "request":"I guess there isn’t any question left so… good luck managing the ship, captain.",
+               "request":"Let's get into it, then. Have fun!",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"Thank you"
+                     "text":"Huh? ..."
                   },
                   {
-                     "text":"Wait, I have more questions!"
+                     "text":"What?"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "random": false,
+         "prompts": [
+            {
+               "request": "You'll need to make quick decisions in order to help. Do you understand?",
+               "answers": [
+                  {},
+                  {
+                     "text": "Yes. I do."
+                  },
+                  {
+                     "text": "It's not like I have a choice anyway."
+                  }
+               ]
+            },
+            {
+               "request": "Great! Then, quick, choose what the crew will eat tonight.",
+               "answers": [
+                  {},
+                  {
+                     "text": "The usual will do."
+                  },
+                  {
+                     "text": "Let's make a feast!"
+                  }
+               ]
+            },
+            {
+               "request": "Good job. Sometimes, choices will have consequences, though.",
+               "answers": [
+                  {},
+                  {
+                     "text": "Huh? What kind of consequences?"
+                  },
+                  {
+                     "text": "That's understandable"
+                  }
+               ]
+            },
+            {
+               "request": "I guess there isn't any question left so... Good luck managing the ship, captain!",
+               "answers": [
+                  {},
+                  {
+                     "text": "Thank you."
+                  },
+                  {
+                     "text": "Wait! I've got more questions!"
                   }
                ]
             }
@@ -84,10 +137,10 @@
                      ]
                   },
                   {
-                     "text":"Let’s buy a new one"
+                     "text":"Let’s buy a new one."
                   },
                   {
-                     "text":"We’ll update the map ourselves"
+                     "text":"We’ll update the map ourselves."
                   }
                ]
             },
@@ -98,10 +151,10 @@
                      
                   },
                   {
-                     "text":"Yes !"
+                     "text":"Yes!"
                   },
                   {
-                     "text":"No"
+                     "text":"No. We don't have time for that."
                   }
                ]
             },
@@ -112,24 +165,24 @@
                      
                   },
                   {
-                     "text":"Time to Party!"
+                     "text":"Time to party!"
                   },
                   {
-                     "text":"It’s just another day, in the end"
+                     "text":"It’s just another day, in the end."
                   }
                ]
             },
             {
-               "request":"Some crew members are role-playing and want to know if you’d like to play a patron deity for one of them",
+               "request":"Some crew members are role-playing and want to know if you’d like to play a patron deity for one of them.",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"I’ll guide the mortal in their adventure"
+                     "text":"I’ll guide the mortal in their adventure."
                   },
                   {
-                     "text":"I have responsibilities, no thank you"
+                     "text":"I have responsibilities, no thank you."
                   }
                ]
             }
@@ -150,10 +203,10 @@
                      
                   },
                   {
-                     "text":"Let’s try to find a place to buy food"
+                     "text":"Let’s try to find a place to buy food."
                   },
                   {
-                     "text":"They’ll need to ration until we find a spaceport"
+                     "text":"They’ll need to ration until we find a spaceport."
                   }
                ]
             },
@@ -163,7 +216,7 @@
                   "op":"not",
                   "value":1
                },
-               "request":"We need to buy food. According to the map, we can go to a nearby planet, or wait for the next spaceport",
+               "request":"We need to buy food. According to the map, we can go to a nearby planet, or wait for the next spaceport.",
                "answers":[
                   {
                      
@@ -193,35 +246,35 @@
                      ]
                   },
                   {
-                     "text":"Ew, disgusting, out of my sight!"
+                     "text":"Ew! Disgusting! Out of my sight!"
                   }
                ]
             },
             {
-               "request":"Another ship will be passing us by soon",
+               "request":"Another ship will be passing us soon.",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"We’ll arrange a meeting, it’ll be interesting"
+                     "text":"We’ll arrange a meeting, it’ll be interesting."
                   },
                   {
-                     "text":"Let’s just send a hello and continue on our way"
+                     "text":"Let’s just send a hello and continue on our way."
                   }
                ]
             },
             {
-               "request":"The crew is requesting a decoration change for their private quarter",
+               "request":"The crew is requesting a decoration change for their private quarter.",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"I’ll authorize it, but don’t go crazy"
+                     "text":"I’ll authorize it, but don’t go crazy."
                   },
                   {
-                     "text":"If anyone tries to change the wall color, I’ll ship them into space!"
+                     "text":"If anyone tries to change the wall color, I’ll throw them into space!"
                   }
                ]
             }
@@ -243,7 +296,7 @@
                      ]
                   },
                   {
-                     "text":"Send a rocket and explode it",
+                     "text":"Send a rocket and explode it.",
                      "actions":[
                         {
                            "name":"rocket",
@@ -270,16 +323,16 @@
                   "op":"equal",
                   "value":1
                },
-               "request":"The asteroid was destroyed but some debris will still hit us",
+               "request":"The asteroid was destroyed but some debris will still hit us.",
                "answers":[
                   {
                      
                   },
                   {
-                     "text":"Fire at them, try to narrow the damages"
+                     "text":"Fire at them, try to narrow the damages."
                   },
                   {
-                     "text":"We’ll avoid most of it and fix what will be broken",
+                     "text":"We’ll avoid most of it and fix what will be broken.",
                      "actions":[
                         {
                            "name":"avoid",
@@ -296,7 +349,7 @@
                   "op":"equal",
                   "value":1
                },
-               "request":"We were hit, but we avoided most of it. The ship will need to be repaired as soon as possible",
+               "request":"We were hit, but we avoided most of it. The ship will need to be repaired as soon as possible.",
                "answers":[
                   {
                      "actions":[
@@ -313,7 +366,7 @@
                      ]
                   },
                   {
-                     "text":"Send robots and crewmembers out to repair it",
+                     "text":"Send robots and crewmembers out to repair it.",
                      "actions":[
                         {
                            "name":"crewmate_lost",
@@ -328,7 +381,7 @@
                      ]
                   },
                   {
-                     "text":"Send a distress signal and wait for the rescue",
+                     "text":"Send a distress signal and wait for the rescue.",
                      "actions":[
                         {
                            "name":"distress_signal",
@@ -345,7 +398,7 @@
                   "op":"equal",
                   "value":1
                },
-               "request":"The asteroid hit us pretty hard, we need to do something to save as many people as possible",
+               "request":"The asteroid hit us pretty hard, we need to do something to save as many people as possible.",
                "answers":[
                   {
                      "actions":[
@@ -362,7 +415,7 @@
                      ]
                   },
                   {
-                     "text":"Send robots and crewmembers out to repair the ship",
+                     "text":"Send robots and crewmembers out to repair the ship.",
                      "actions":[
                         {
                            "name":"crewmate_lost",
@@ -377,7 +430,7 @@
                      ]
                   },
                   {
-                     "text":"Send a distress signal and wait for the rescue",
+                     "text":"Send a distress signal and wait for the rescue.",
                      "actions":[
                         {
                            "name":"distress_signal",
@@ -413,7 +466,7 @@
                   "op":"not",
                   "value":1
                },
-               "request":"Good job captain, the worst is behind us now",
+               "request":"Good job captain, the worst is behind us now.",
                "answers":[
                   {
                      
@@ -422,7 +475,7 @@
                      "text":"Let’s celebrate!"
                   },
                   {
-                     "text":"We should find a spaceport and rest"
+                     "text":"We should find a spaceport and rest."
                   }
                ]
             },
@@ -438,10 +491,10 @@
                      
                   },
                   {
-                     "text":"Let’s find a spaceport and rest"
+                     "text":"Let’s find a spaceport and rest."
                   },
                   {
-                     "text":"We’ll honor the dead today and rest tomorrow"
+                     "text":"We’ll honor the dead today and rest tomorrow."
                   }
                ]
             }
@@ -475,7 +528,14 @@
                      "text": "We can't accept that, sorry"
                   },
                   {
-                     "text": "Sure, why not, give them a room!"
+                     "text": "Sure, why not, give them a room!",
+                     "actions": [
+                        {
+                           "name": "given-room-to-couple",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
                   }
                ]
             },
@@ -528,6 +588,98 @@
                ]
             }
          ]
+      },
+      {
+         "random": true,
+         "prompts": [
+            {
+               "if": {
+                  "name": "given-room-to-couple",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "The married couple had a child! They're asking for your help naming the kid.",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "crewmate_count",
+                           "op": "add",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "They can use my name and call then Junior.",
+                     "actions": [
+                        {
+                           "name": "crewmate_count",
+                           "op": "add",
+                           "value": 1
+                        },
+                        {
+                           "name": "a-baby",
+                           "op": "set",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Name the kid after the stars, since they were born in space.",
+                     "actions": [
+                        {
+                           "name": "crewmate_count",
+                           "op": "add",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "request": "The crew decided to throw a party! Who should take your place until you come back?",
+               "answers": [
+                  {},
+                  {
+                     "text": "Give the cat its rightful place."
+                  },
+                  {
+                     "text": "It's just for a few hours, it'll be fine."
+                  }
+               ]
+            },
+            {
+               "request": "Someone found insects in one of the food containers.",
+               "answers": [
+                  {},
+                  {
+                     "text": "Burn everything before it infects anything else!"
+                  },
+                  {
+                     "text": "It's just bugs, try to see if we can eat them."
+                  }
+               ]
+            },
+            {
+               "request": "A ship sent a distress signal near us, should we go and help them?",
+               "answers": [
+                  {},
+                  {
+                     "text": "Rescue mission!",
+                     "actions": [
+                        {
+                           "name": "crewmate_count",
+                           "op": "add",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "text": "We don't have time for this."
+                  }
+               ]
+            }
+         ] 
       },
       {
          "random": true,
@@ -598,7 +750,7 @@
          "random": false,
          "prompts": [
             {
-               "request": "PIRATES!!! Shields will not last long!",
+               "request": "Pirates ship will be upon us soon, what shall we do?",
                "answers": [
                   {
                      "actions": [
@@ -620,7 +772,7 @@
                      ]
                   },
                   {
-                     "text": "Full power to the weapon system, Photon Cannon engaged!",
+                     "text": "Full power to the weapon system. Fire at will!",
                      "actions": [
                         {
                            "name": "fight-the-pirates",
@@ -649,7 +801,7 @@
                      ]
                   },
                   {
-                     "text": "Photon Cannon engaged! Blast them off!!",
+                     "text": "Dammit! Blast Them!!",
                      "actions": [
                         {
                            "name": "fire-anyway",
@@ -659,7 +811,7 @@
                      ]
                   },
                   {
-                     "text": "Prepare to be boarded!",
+                     "text": "Prepare to be boarded...",
                      "actions": [
                         {
                            "name": "boarding-pirates",
@@ -688,7 +840,7 @@
                      ]
                   },
                   {
-                     "text": "Sorry, we can't affort to fight them",
+                     "text": "We don't have any other choice...",
                      "actions": [
                         {
                            "name": "surrender-to-the-pirates",
@@ -698,7 +850,7 @@
                      ]
                   },
                   {
-                     "text": "We're not abandoning our friends! Prepare the cannon!",
+                     "text": "Over my dead body! Engage!",
                      "actions": [
                         {
                            "name": "fight-the-pirates",
@@ -737,7 +889,7 @@
                      ]
                   },
                   {
-                     "text": "Full power to the weapon system!",
+                     "text": "Full power to the weapon system! Blast them!",
                      "actions": [
                         {
                            "name": "fighting-pirates",
@@ -754,14 +906,14 @@
                   "op": "equal",
                   "value": 1
                },
-               "request": "A crewmate volunteers to be a prisoner. He proposes to hide an emergency beacon in his pocket to alert the authorities.",
+               "request": "Someone volunteered to be a prisoner, they propose to hide an emergency beacon in their pocket to alery the authorities",
                "answers": [
                   {},
                   {
-                     "text": "You're a true hero."
+                     "text": "What a true hero! We'll come back for them!"
                   },
                   {
-                     "text": "Too dangerous. Just send them the prisoners"
+                     "text": "Too dangerous. Just send them the prisoners."
                   }
                ]
             },
@@ -789,11 +941,16 @@
                            "name": "fire-anyway",
                            "op": "set",
                            "value": 1
+                        },
+                        {
+                           "name": "crewmate_count",
+                           "op": "sub",
+                           "value": 2
                         }
                      ]
                   },
                   {
-                     "text": "Take weapons, prepare to be boarded!",
+                     "text": "Take weapons, prepare for the attack!",
                      "actions": [
                         {
                            "name": "boarding-pirates",
@@ -918,6 +1075,134 @@
                   },
                   {
                      "text": "I'm sorry."
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "random": false,
+         "prompts": [
+            {
+               "request": "Captain, it is time, now.",
+               "answers": [
+                  {},
+                  {
+                     "text": "You sure???"
+                  },
+                  {
+                     "text": "Literally not."
+                  }
+               ]
+            },
+            {
+               "request": "You're old now, captain. It's been, like, years!",
+               "answers": [
+                  {},
+                  {
+                     "text": "But I have so much left to do!"
+                  },
+                  {
+                     "text": "I don't even feel a day older..."
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "baby-state",
+                  "op": "equal",
+                  "value": 0
+               },
+               "request": "The new captain will be there soon. You should use your time to say goodbyes.",
+               "answers": [
+                  {
+                  
+                  },
+                  {
+                     "text": "I guess I've got no choice here..."
+                  },
+                  {
+                     "text": "No goodbyes. I'm not good with those."
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "baby-state",
+                  "op": "equal",
+                  "value": 1
+               },
+               "request": "Junior will be here soon. You should use your time to say goodbyes",
+               "answers": [
+                  {},
+                  {
+                     "text": "I should probably leave before, then."
+                  },
+                  {
+                     "text": "Take care of the ship and the kid for me."
+                  }
+               ]
+            },
+            {
+               "if": {
+                  "name": "baby-state",
+                  "op": "equal",
+                  "value": 2
+               },
+               "request": "Star will be here soon. You should use your time to say goodbyes",
+               "answers": [
+                  {},
+                  {
+                     "text": "I should probably leave before, then."
+                  },
+                  {
+                     "text": "Take care of the ship and the kid for me."
+                  }
+               ]
+            },
+            {
+               "request": "Anyway... It has been a pleasure to spend time with you, captain. Thank you for your time and service.",
+               "answers": [
+                  {},
+                  {
+                     "text": "No, thank you."
+                  },
+                  {
+                     "text": "It was just a game for me, nothing big."
+                  }
+               ]
+            },
+            {
+               "request": "I hope you'll continue to live lots of adventures out there. Take care of yourself, captain. Have a good life.",
+               "answers": [
+                  {
+                     "actions": [
+                        {
+                           "name": "game-end-state",
+                           "op": "set",
+                           "value": 2
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Yes.",
+                     "actions": [
+                        {
+                           "name": "game-end-state",
+                           "op": "set",
+                           "value": 2
+                        }
+                     ]
+                  },
+                  {
+                     "text": "Yes.",
+                     "actions": [
+                        {
+                           "name": "game-end-state",
+                           "op": "set",
+                           "value": 2
+                        }
+                     ]
                   }
                ]
             }
