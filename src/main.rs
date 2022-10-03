@@ -18,6 +18,7 @@ pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 
 /// Remaining time to answer (in seconds)
 pub struct RemainingTime(f32);
+pub struct AudioFlag(bool);
 
 /// Resource referencing every ui element
 struct UiElements {
@@ -55,28 +56,111 @@ fn main() -> ExitCode {
         .insert_resource(RemainingTime(10.0))
         .insert_resource(story::StoryExecutor::from(story))
         .insert_resource(Random::from_entropy())
+        .insert_resource(AudioFlag(true))
+        .insert_resource(Vec::<Handle<AudioSource>>::new())
         .add_plugins(DefaultPlugins)
         .add_plugin(AudioPlugin)
         .add_startup_system(setup_scene)
-        .add_startup_system(play_audio)
+        .add_startup_system(setup_audio)
         .add_system_to_stage(CoreStage::First, ui::Prev::<Interaction>::update_prev)
         .add_system(ui::Terminal::animate_system)
         .add_system(keyboard_events)
         .add_system(Selector::update_system)
         .add_system(ui::Choice::select_choice_system)
+        .add_system(audio_game)
         .add_system(story_loop)
         .run();
 
     ExitCode::SUCCESS
 }
 
-fn play_audio(asset_server: Res<AssetServer>, audio: Res<Audio>) {
-    audio
-        .play(asset_server.load("mainmenu.ogg"))
-        // The first 0.5 seconds will not be looped and are the "intro"
-        .loop_from(20.0);
-    // Fade-in with a dynamic easing
-    // .fade_in(AudioTween::new( Duration::from_secs(2), AudioEasing::OutPowi(2),))
+fn setup_audio(asset_server: Res<AssetServer>, mut audio_assets: ResMut<Vec::<Handle<AudioSource>>>) {
+    audio_assets.push(asset_server.load("mainmenu.ogg")); // 0
+    audio_assets.push(asset_server.load("OST/credits.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_drums_club.ogg")); // 2
+    audio_assets.push(asset_server.load("OST/GJ_10s_drums_hiphop.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_drums_slowbreak.ogg")); // 4
+    audio_assets.push(asset_server.load("OST/GJ_10s_drums_synthwave.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_layers_arp.ogg")); // 6
+    audio_assets.push(asset_server.load("OST/GJ_10s_layers_bass1.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_layers_bass2.ogg")); // 8
+    audio_assets.push(asset_server.load("OST/GJ_10s_layers_bells.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_layers_chord.ogg")); // 10
+    audio_assets.push(asset_server.load("OST/GJ_10s_layers_percussion.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_solo_1.ogg")); // 12
+    audio_assets.push(asset_server.load("OST/GJ_10s_solo_2.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_special_club.ogg")); // 14
+    audio_assets.push(asset_server.load("OST/GJ_10s_transition_1.ogg"));
+    audio_assets.push(asset_server.load("OST/GJ_10s_transition_2_loop.ogg")); // 16
+}
+
+fn audio_menu(audio: Res<Audio>, audio_assets: Res<Vec::<Handle<AudioSource>>>) {
+    audio.play(audio_assets[0].clone()).loop_from(20.0);
+}
+
+fn audio_credits(audio: Res<Audio>, audio_assets: Res<Vec::<Handle<AudioSource>>>) {
+    audio.play(audio_assets[1].clone()).looped();
+}
+
+fn audio_game(mut audio: ResMut<DynamicAudioChannels>,
+        mut audio_flag: ResMut<AudioFlag>,
+        executor: Res<story::StoryExecutor>,
+        audio_assets: Res<Vec::<Handle<AudioSource>>>) {
+    if audio_flag.0 == true {
+        audio_flag.0 = false;
+        match executor.current_batch {
+            0 => {
+                match executor.current_prompt {
+                    0 => {
+                        //audio.create_channel("a1").play(audio_assets[6].clone());
+                    },
+                    1 => {
+                        audio.create_channel("a2").play(audio_assets[5].clone());
+                        audio.create_channel("b2").play(audio_assets[6].clone());
+                        audio.create_channel("c2").play(audio_assets[7].clone());
+                    },
+                    2 => {
+                        audio.create_channel("a3").play(audio_assets[5].clone());
+                        audio.create_channel("b2").play(audio_assets[6].clone());
+                        audio.create_channel("c3").play(audio_assets[7].clone());
+                    },
+                    3 => {
+                        audio.create_channel("a4").play(audio_assets[5].clone());
+                        audio.create_channel("b4").play(audio_assets[6].clone());
+                        audio.create_channel("c4").play(audio_assets[7].clone());
+                        audio.create_channel("b2").play(audio_assets[9].clone());
+                    },
+                    _ => {
+                    }
+                }
+            },
+            1 => {
+                match executor.current_prompt {
+                    0 => {
+                        audio.create_channel("a1").play(audio_assets[6].clone());
+                    },
+                    1 => {
+                        audio.create_channel("a2").play(audio_assets[5].clone());
+                        //audio.create_channel("b2").play(audio_assets[6].clone());
+                        audio.create_channel("c2").play(audio_assets[7].clone());
+                    },
+                    2 => {
+                        audio.create_channel("a3").play(audio_assets[5].clone());
+                        //audio.create_channel("b3").play(audio_assets[9].clone());
+                        audio.create_channel("c3").play(audio_assets[7].clone());
+                    },
+                    3 => {
+                        audio.create_channel("a4").play(audio_assets[5].clone());
+                        //audio.create_channel("b4").play(audio_assets[6].clone());
+                        audio.create_channel("c4").play(audio_assets[7].clone());
+                    },
+                    _ => {
+                    }
+                }
+            },
+            _ => {}
+        }
+    }
 }
 
 fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {
@@ -233,12 +317,14 @@ fn story_loop(
     ui_elements: ResMut<UiElements>,
     dt: Res<Time>,
     mut query: Query<(&mut ui::Terminal, &mut Text)>,
+    mut audio_flag: ResMut<AudioFlag>,
 ) {
     remaining_time.0 -= dt.delta_seconds();
 
     if remaining_time.0 > 0.0 {
         return;
     }
+    audio_flag.0 = true;
     remaining_time.0 = 10.0;
     let next_prompt = executor
         .select_answer(current_selection.0, &mut *random)

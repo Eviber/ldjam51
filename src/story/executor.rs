@@ -5,8 +5,8 @@ use super::{Prompt, Story, Variables};
 /// A **resource** that's responsible for executing the story's logic.
 pub struct StoryExecutor {
     story: Story,
-    current_batch: usize,
-    current_prompt: usize,
+    pub current_batch: usize,
+    pub current_prompt: usize,
     variables: Variables,
 }
 
