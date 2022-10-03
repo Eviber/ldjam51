@@ -422,6 +422,10 @@ const BAR_W: f32 = 191.0;
 const BAR_X: f32 = 26.0;
 const BAR_Y: f32 = 11.0;
 const BAR_H: f32 = 16.0;
+const CHOICE_X1: f32 = 230.0;
+const CHOICE_Y1: f32 = 335.0;
+const CHOICE_X2: f32 = 230.0;
+const CHOICE_Y2: f32 = 407.0;
 
 fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {
     let terminal_font = assets.load("RobotoMono-Medium.ttf");
@@ -452,11 +456,6 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
     let mut choice2 = Entity::from_raw(0); // TODO remove this hack // TODO: don't remove it it's cool // TODO ok maybe don't remove it
     let mut terminal = Entity::from_raw(0); // TODO remove this hack
     let mut timer = Entity::from_raw(0); // TODO remove this hack
-
-    let X1 = 230.0;
-    let Y1 = 335.0;
-    let X2 = 230.0;
-    let Y2 = 407.0;
 
     commands
         .spawn_bundle(ImageBundle {
@@ -536,8 +535,8 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                     style: Style {
                         position_type: PositionType::Absolute,
                         position: UiRect {
-                            left: Val::Px(X1),
-                            top: Val::Px(Y1),
+                            left: Val::Px(CHOICE_X1),
+                            top: Val::Px(CHOICE_Y1),
                             ..default()
                         },
                         size: Size::new(Val::Px(490.0), Val::Px(28.0)),
@@ -566,8 +565,8 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                     style: Style {
                         position_type: PositionType::Absolute,
                         position: UiRect {
-                            left: Val::Px(X2),
-                            top: Val::Px(Y2),
+                            left: Val::Px(CHOICE_X2),
+                            top: Val::Px(CHOICE_Y2),
                             ..default()
                         },
                         size: Size::new(Val::Px(490.0), Val::Px(28.0)),
