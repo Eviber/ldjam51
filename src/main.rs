@@ -104,7 +104,7 @@ fn audio_credits(audio: Res<Audio>, audio_assets: Res<Vec<Handle<AudioSource>>>)
     audio.play(audio_assets[1].clone()).looped();
 }
 
-const VOLUME: f64 = 0.1;
+const VOLUME: f64 = 0.05;
 
 fn audio_game(
     mut audio: ResMut<DynamicAudioChannels>,
