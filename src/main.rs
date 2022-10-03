@@ -114,6 +114,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                         ..default()
                     },
                     overflow: Overflow::Hidden,
+                    align_self: AlignSelf::FlexEnd,
                     size: Size::new(Val::Px(500.0), Val::Px(250.0)),
                     ..default()
                 },
