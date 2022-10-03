@@ -239,7 +239,7 @@
                      "text":"Granted! Be happy you little lovebirds!",
                      "actions": [
                         {
-                           "name": "maried-a-couple",
+                           "name": "married-a-couple",
                            "op": "set",
                            "value": 1
                         }
@@ -762,7 +762,7 @@
                      ]
                   },
                   {
-                     "text": "Concact them, tell them we want to negotiate.",
+                     "text": "Contact them, tell them we want to negotiate.",
                      "actions": [
                         {
                            "name": "negociate-with-pirates",
