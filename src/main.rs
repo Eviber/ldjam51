@@ -119,297 +119,768 @@ fn audio_game(
                         //audio.create_channel("a1").play(audio_assets[6].clone());
                     }
                     1 => {
-                        audio.create_channel("a2").play(audio_assets[7].clone());
+                        audio
+                            .create_channel("a2")
+                            .play(audio_assets[7].clone())
+                            .with_volume(0.5);
                     }
                     2 => {
-                        audio.create_channel("a3").play(audio_assets[3].clone());
-                        audio.create_channel("c3").play(audio_assets[7].clone());
+                        audio
+                            .create_channel("a3")
+                            .play(audio_assets[3].clone())
+                            .with_volume(0.5);
+                        audio
+                            .create_channel("c3")
+                            .play(audio_assets[7].clone())
+                            .with_volume(0.5);
                     }
                     3 => {
-                        audio.create_channel("a4").play(audio_assets[3].clone());
-                        audio.create_channel("b4").play(audio_assets[7].clone());
+                        audio
+                            .create_channel("a4")
+                            .play(audio_assets[3].clone())
+                            .with_volume(0.5);
+                        audio
+                            .create_channel("b4")
+                            .play(audio_assets[7].clone())
+                            .with_volume(0.5);
                     }
                     _ => {}
                 }
             }
             1 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[5].clone());
-                    audio.create_channel("b1").play(audio_assets[6].clone());
-                    audio.create_channel("c1").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b1")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c1")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[5].clone());
-                    audio.create_channel("b2").play(audio_assets[6].clone());
-                    audio.create_channel("c2").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b2")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[5].clone());
-                    audio.create_channel("b3").play(audio_assets[6].clone());
-                    audio.create_channel("c3").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b3")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[5].clone());
-                    audio.create_channel("b4").play(audio_assets[6].clone());
-                    audio.create_channel("c4").play(audio_assets[7].clone());
-                    audio.create_channel("d4").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b4")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             2 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[4].clone());
-                    audio.create_channel("b1").play(audio_assets[6].clone());
-                    audio.create_channel("c1").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b1")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c1")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[4].clone());
-                    audio.create_channel("b2").play(audio_assets[6].clone());
-                    audio.create_channel("c2").play(audio_assets[7].clone());
-                    audio.create_channel("d2").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b2")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d2")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[4].clone());
-                    audio.create_channel("c3").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[4].clone());
-                    audio.create_channel("b4").play(audio_assets[6].clone());
-                    audio.create_channel("c4").play(audio_assets[7].clone());
-                    audio.create_channel("d4").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b4")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             3 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[5].clone());
-                    audio.create_channel("b1").play(audio_assets[6].clone());
-                    audio.create_channel("c1").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b1")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c1")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[5].clone());
-                    audio.create_channel("b2").play(audio_assets[6].clone());
-                    audio.create_channel("c2").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b2")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[5].clone());
-                    audio.create_channel("c3").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[3].clone());
-                    audio.create_channel("b4").play(audio_assets[6].clone());
-                    audio.create_channel("c4").play(audio_assets[7].clone());
-                    audio.create_channel("d4").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b4")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 4 => {
-                    audio.create_channel("a5").play(audio_assets[4].clone());
-                    audio.create_channel("b5").play(audio_assets[6].clone());
-                    audio.create_channel("c5").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a5")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b5")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c5")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             4 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[5].clone());
-                    audio.create_channel("b1").play(audio_assets[12].clone());
-                    audio.create_channel("c1").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b1")
+                        .play(audio_assets[12].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c1")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[5].clone());
-                    audio.create_channel("c2").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[5].clone());
-                    audio.create_channel("c3").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[4].clone());
-                    audio.create_channel("b4").play(audio_assets[10].clone());
-                    audio.create_channel("c4").play(audio_assets[8].clone());
-                    audio.create_channel("d4").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b4")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 4 => {
-                    audio.create_channel("a5").play(audio_assets[4].clone());
-                    audio.create_channel("b5").play(audio_assets[10].clone());
-                    audio.create_channel("c5").play(audio_assets[8].clone());
-                    audio.create_channel("d5").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a5")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b5")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c5")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d5")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 5 => {
-                    audio.create_channel("a6").play(audio_assets[4].clone());
-                    audio.create_channel("b6").play(audio_assets[10].clone());
-                    audio.create_channel("c6").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a6")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b6")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c6")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             5 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[5].clone());
-                    audio.create_channel("b1").play(audio_assets[6].clone());
-                    audio.create_channel("c1").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b1")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c1")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[5].clone());
-                    audio.create_channel("b2").play(audio_assets[6].clone());
-                    audio.create_channel("c2").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b2")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[5].clone());
-                    audio.create_channel("c3").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[5].clone());
-                    audio.create_channel("b4").play(audio_assets[6].clone());
-                    audio.create_channel("c4").play(audio_assets[7].clone());
-                    audio.create_channel("d4").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b4")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 4 => {
-                    audio.create_channel("a5").play(audio_assets[5].clone());
-                    audio.create_channel("b5").play(audio_assets[6].clone());
-                    audio.create_channel("c5").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a5")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b5")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c5")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             6 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[5].clone());
-                    audio.create_channel("b1").play(audio_assets[10].clone());
-                    audio.create_channel("c1").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b1")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c1")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[5].clone());
-                    audio.create_channel("b2").play(audio_assets[10].clone());
-                    audio.create_channel("c2").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b2")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[5].clone());
-                    audio.create_channel("c3").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[5].clone());
-                    audio.create_channel("b4").play(audio_assets[9].clone());
-                    audio.create_channel("c4").play(audio_assets[8].clone());
-                    audio.create_channel("d4").play(audio_assets[10].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             7 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[4].clone());
-                    audio.create_channel("b1").play(audio_assets[6].clone());
-                    audio.create_channel("c1").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b1")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c1")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[4].clone());
-                    audio.create_channel("b2").play(audio_assets[6].clone());
-                    audio.create_channel("c2").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b2")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[4].clone());
-                    audio.create_channel("c3").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[4].clone());
-                    audio.create_channel("b4").play(audio_assets[6].clone());
-                    audio.create_channel("c4").play(audio_assets[7].clone());
-                    audio.create_channel("d4").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b4")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 4 => {
-                    audio.create_channel("a5").play(audio_assets[4].clone());
-                    audio.create_channel("b5").play(audio_assets[6].clone());
-                    audio.create_channel("c5").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a5")
+                        .play(audio_assets[4].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b5")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c5")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             8 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[13].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[13].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[3].clone());
-                    audio.create_channel("c2").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[3].clone());
-                    audio.create_channel("c3").play(audio_assets[8].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[3].clone());
-                    audio.create_channel("c4").play(audio_assets[8].clone());
-                    audio.create_channel("d4").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d4")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 4 => {
-                    audio.create_channel("a5").play(audio_assets[3].clone());
-                    audio.create_channel("c5").play(audio_assets[7].clone());
-                    audio.create_channel("d5").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a5")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c5")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d5")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 5 => {
-                    audio.create_channel("a6").play(audio_assets[3].clone());
-                    audio.create_channel("c6").play(audio_assets[7].clone());
-                    audio.create_channel("d6").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a6")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c6")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d6")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 6 => {
-                    audio.create_channel("a7").play(audio_assets[3].clone());
-                    audio.create_channel("b7").play(audio_assets[10].clone());
-                    audio.create_channel("c7").play(audio_assets[8].clone());
-                    audio.create_channel("d7").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a7")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b7")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c7")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d7")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 7 => {
-                    audio.create_channel("a8").play(audio_assets[3].clone());
-                    audio.create_channel("b8").play(audio_assets[10].clone());
-                    audio.create_channel("c8").play(audio_assets[7].clone());
-                    audio.create_channel("d8").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a8")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b8")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c8")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d8")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 8 => {
-                    audio.create_channel("a9").play(audio_assets[3].clone());
-                    audio.create_channel("b9").play(audio_assets[10].clone());
-                    audio.create_channel("c9").play(audio_assets[8].clone());
-                    audio.create_channel("d9").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a9")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b9")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c9")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d9")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 9 => {
-                    audio.create_channel("a10").play(audio_assets[3].clone());
-                    audio.create_channel("b10").play(audio_assets[6].clone());
-                    audio.create_channel("c10").play(audio_assets[7].clone());
-                    audio.create_channel("d10").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a10")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b10")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c10")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d10")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 10 => {
-                    audio.create_channel("a11").play(audio_assets[3].clone());
-                    audio.create_channel("b11").play(audio_assets[6].clone());
-                    audio.create_channel("c11").play(audio_assets[7].clone());
-                    audio.create_channel("d11").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a11")
+                        .play(audio_assets[3].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b11")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c11")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d11")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
             8 => match executor.current_prompt {
                 0 => {
-                    audio.create_channel("a1").play(audio_assets[12].clone());
+                    audio
+                        .create_channel("a1")
+                        .play(audio_assets[12].clone())
+                        .with_volume(0.5);
                 }
                 1 => {
-                    audio.create_channel("a2").play(audio_assets[5].clone());
-                    audio.create_channel("b2").play(audio_assets[8].clone());
-                    audio.create_channel("c2").play(audio_assets[10].clone());
+                    audio
+                        .create_channel("a2")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b2")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c2")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
                 }
                 2 => {
-                    audio.create_channel("a3").play(audio_assets[5].clone());
-                    audio.create_channel("b3").play(audio_assets[8].clone());
-                    audio.create_channel("c3").play(audio_assets[10].clone());
+                    audio
+                        .create_channel("a3")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("b3")
+                        .play(audio_assets[8].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c3")
+                        .play(audio_assets[10].clone())
+                        .with_volume(0.5);
                 }
                 3 => {
-                    audio.create_channel("a4").play(audio_assets[5].clone());
-                    audio.create_channel("c4").play(audio_assets[7].clone());
+                    audio
+                        .create_channel("a4")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c4")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
                 }
                 4 => {
-                    audio.create_channel("a5").play(audio_assets[5].clone());
-                    audio.create_channel("c5").play(audio_assets[7].clone());
-                    audio.create_channel("d5").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a5")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c5")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d5")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 5 => {
-                    audio.create_channel("a6").play(audio_assets[5].clone());
-                    audio.create_channel("c6").play(audio_assets[7].clone());
-                    audio.create_channel("d6").play(audio_assets[9].clone());
+                    audio
+                        .create_channel("a6")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("c6")
+                        .play(audio_assets[7].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d6")
+                        .play(audio_assets[9].clone())
+                        .with_volume(0.5);
                 }
                 6 => {
-                    audio.create_channel("a7").play(audio_assets[5].clone());
-                    audio.create_channel("d7").play(audio_assets[6].clone());
+                    audio
+                        .create_channel("a7")
+                        .play(audio_assets[5].clone())
+                        .with_volume(0.5);
+                    audio
+                        .create_channel("d7")
+                        .play(audio_assets[6].clone())
+                        .with_volume(0.5);
                 }
                 _ => {}
             },
