@@ -1,5 +1,5 @@
+use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
-use bevy::{input::keyboard::KeyboardInput, ui::FocusPolicy};
 use bevy_kira_audio::prelude::*;
 
 use rand::SeedableRng;
@@ -23,6 +23,7 @@ pub struct RemainingTime(f32);
 struct UiElements {
     terminal: Entity,
     choices: [Entity; 2],
+    timer: Entity,
 }
 
 /// The glorious entry point.
@@ -65,6 +66,7 @@ fn main() -> ExitCode {
         .add_system(Selector::update_system)
         .add_system(ui::Choice::select_choice_system)
         .add_system(story_loop)
+        .add_system(update_timer)
         .run();
 
     ExitCode::SUCCESS
@@ -108,31 +110,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
         ..default()
     });
 
-    let terminal = commands
-        .spawn_bundle(ui::TerminalBundle {
-            terminal: ui::Terminal {
-                style: query_text_style,
-                animated_text: prompt.request.clone(),
-                animation_index: 0,
-                animation_period_range: (0.02, 0.04),
-                next_animation_time: 0.0,
-            },
-            text: TextBundle {
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    position: UiRect {
-                        left: Val::Percent(460.0 / 1896.0 * 100.0),
-                        top: Val::Px(85.0),
-                        ..default()
-                    },
-                    max_size: Size::new(Val::Px(460.0), Val::Px(250.0)),
-                    ..default()
-                },
-                ..default()
-            },
-        })
-        .id();
-
+    commands.spawn_bundle(ui::ContainerBundle::default());
     commands.spawn_bundle(ui::ContainerBundle::default());
 
     commands
@@ -149,7 +127,6 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
             },
             image: UiImage(assets.load("select_marker.png")),
             color: UiColor(Color::rgba(1.0, 1.0, 1.0, 0.2)),
-            focus_policy: FocusPolicy::Pass,
             ..default()
         })
         .insert(Selector);
@@ -180,10 +157,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                         animation_period_range: (0.02, 0.04),
                         next_animation_time: 0.0,
                     },
-                    text: TextBundle {
-                        focus_policy: FocusPolicy::Pass,
-                        ..default()
-                    },
+                    text: TextBundle { ..default() },
                 })
                 .id();
         });
@@ -219,9 +193,74 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                 .id();
         });
 
+    let terminal = commands
+        .spawn_bundle(ui::TerminalBundle {
+            terminal: ui::Terminal {
+                style: query_text_style,
+                animated_text: prompt.request.clone(),
+                animation_index: 0,
+                animation_period_range: (0.02, 0.04),
+                next_animation_time: 0.0,
+            },
+            text: TextBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    position: UiRect {
+                        left: Val::Percent(460.0 / 1896.0 * 100.0),
+                        top: Val::Px(85.0),
+                        ..default()
+                    },
+                    max_size: Size::new(Val::Px(460.0), Val::Px(250.0)),
+                    ..default()
+                },
+                ..default()
+            },
+        })
+        .id();
+
+    let mut timer = Entity::from_raw(0); // TODO remove this hack
+    commands
+        .spawn_bundle(ImageBundle {
+            style: Style {
+                size: Size::new(Val::Percent(50.0), Val::Px(50.0)),
+                position_type: PositionType::Absolute,
+                position: UiRect {
+                    left: Val::Percent(25.0),
+                    bottom: Val::Px(0.0),
+                    ..default()
+                },
+                ..default()
+            },
+            image: UiImage(assets.load("loading.png")),
+            ..default()
+        })
+        .with_children(
+            // create a child entity for the loading bar
+            // this is a simple rectangle that will be scaled
+            |parent| {
+                timer = parent
+                    .spawn_bundle(ImageBundle {
+                        style: Style {
+                            size: Size::new(Val::Px(443.0), Val::Percent(49.0 / 81.0 * 100.0)),
+                            position_type: PositionType::Relative,
+                            position: UiRect {
+                                left: Val::Percent(37.0 / 1122.0 * 100.0),
+                                top: Val::Px(-10.0),
+                                ..default()
+                            },
+                            ..default()
+                        },
+                        image: UiImage(assets.load("bar.png")),
+                        ..default()
+                    })
+                    .id();
+            },
+        );
+
     commands.insert_resource(UiElements {
         terminal,
         choices: [choice1, choice2],
+        timer,
     });
 }
 
@@ -292,4 +331,13 @@ fn keyboard_events(
             },
         }
     }
+}
+
+fn update_timer(
+    timer: ResMut<RemainingTime>,
+    ui_elements: Res<UiElements>,
+    mut ui_query: Query<&mut Style>,
+) {
+    let mut bar = ui_query.get_mut(ui_elements.timer).unwrap();
+    bar.size.width = Val::Px(443.0 * timer.0 / 10.0);
 }
