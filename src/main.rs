@@ -76,22 +76,22 @@ fn main() -> ExitCode {
 
 fn setup_audio(asset_server: Res<AssetServer>, mut audio_assets: ResMut<Vec::<Handle<AudioSource>>>) {
     audio_assets.push(asset_server.load("mainmenu.ogg")); // 0
-    audio_assets.push(asset_server.load("OST/credits.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_drums_club.ogg")); // 2
-    audio_assets.push(asset_server.load("OST/GJ_10s_drums_hiphop.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_drums_slowbreak.ogg")); // 4
-    audio_assets.push(asset_server.load("OST/GJ_10s_drums_synthwave.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_layers_arp.ogg")); // 6
-    audio_assets.push(asset_server.load("OST/GJ_10s_layers_bass1.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_layers_bass2.ogg")); // 8
-    audio_assets.push(asset_server.load("OST/GJ_10s_layers_bells.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_layers_chord.ogg")); // 10
-    audio_assets.push(asset_server.load("OST/GJ_10s_layers_percussion.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_solo_1.ogg")); // 12
-    audio_assets.push(asset_server.load("OST/GJ_10s_solo_2.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_special_club.ogg")); // 14
-    audio_assets.push(asset_server.load("OST/GJ_10s_transition_1.ogg"));
-    audio_assets.push(asset_server.load("OST/GJ_10s_transition_2_loop.ogg")); // 16
+    audio_assets.push(asset_server.load("credits.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_drums_club.ogg")); // 2
+    audio_assets.push(asset_server.load("GJ_10s_drums_hiphop.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_drums_slowbreak.ogg")); // 4
+    audio_assets.push(asset_server.load("GJ_10s_drums_synthwave.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_layers_arp.ogg")); // 6
+    audio_assets.push(asset_server.load("GJ_10s_layers_bass1.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_layers_bass2.ogg")); // 8
+    audio_assets.push(asset_server.load("GJ_10s_layers_bells.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_layers_chord.ogg")); // 10
+    audio_assets.push(asset_server.load("GJ_10s_layers_percussion.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_solo_1.ogg")); // 12
+    audio_assets.push(asset_server.load("GJ_10s_solo_2.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_special_club.ogg")); // 14
+    audio_assets.push(asset_server.load("GJ_10s_transition_1.ogg"));
+    audio_assets.push(asset_server.load("GJ_10s_transition_2_loop.ogg")); // 16
 }
 
 fn audio_menu(audio: Res<Audio>, audio_assets: Res<Vec::<Handle<AudioSource>>>) {
