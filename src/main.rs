@@ -113,13 +113,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                         top: Val::Px(85.0),
                         ..default()
                     },
-                    overflow: Overflow::Hidden,
-                    align_self: AlignSelf::FlexEnd,
-                    size: Size::new(Val::Px(500.0), Val::Px(250.0)),
-                    ..default()
-                },
-                text: Text {
-                    alignment: TextAlignment::TOP_LEFT,
+                    max_size: Size::new(Val::Px(460.0), Val::Px(250.0)),
                     ..default()
                 },
                 ..default()
@@ -182,7 +176,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                 .id();
         });
 
-    let mut choice2 = Entity::from_raw(0); // TODO remove this hack // TODO: don't remove it it's cool
+    let mut choice2 = Entity::from_raw(0); // TODO remove this hack // TODO: don't remove it it's cool // TODO ok maybe don't remove it
     commands
         .spawn_bundle(ui::ChoiceBundle {
             choice: ui::Choice(2),
