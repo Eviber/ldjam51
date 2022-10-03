@@ -539,7 +539,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                             top: Val::Px(CHOICE_Y1),
                             ..default()
                         },
-                        size: Size::new(Val::Px(490.0), Val::Px(28.0)),
+                        size: Size::new(Val::Px(490.0), Val::Px(60.0)),
                         ..default()
                     },
                     ..default()
@@ -554,7 +554,19 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                 animation_period_range: (0.02, 0.04),
                                 next_animation_time: 0.0,
                             },
-                            text: TextBundle { ..default() },
+                            text: TextBundle {
+                                style: Style {
+                                    position_type: PositionType::Absolute,
+                                    position: UiRect {
+                                        left: Val::Px(0.0),
+                                        top: Val::Px(0.0),
+                                        ..default()
+                                    },
+                                    max_size: Size::new(Val::Px(490.0), Val::Px(60.0)),
+                                    ..default()
+                                },
+                                ..default()
+                            },
                         })
                         .id();
                 });
@@ -569,7 +581,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                             top: Val::Px(CHOICE_Y2),
                             ..default()
                         },
-                        size: Size::new(Val::Px(490.0), Val::Px(28.0)),
+                        size: Size::new(Val::Px(490.0), Val::Px(60.0)),
                         ..default()
                     },
                     ..default()
@@ -583,6 +595,19 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                 animation_index: 0,
                                 animation_period_range: (0.02, 0.04),
                                 next_animation_time: 0.0,
+                            },
+                            text: TextBundle {
+                                style: Style {
+                                    position_type: PositionType::Absolute,
+                                    position: UiRect {
+                                        left: Val::Px(0.0),
+                                        top: Val::Px(0.0),
+                                        ..default()
+                                    },
+                                    max_size: Size::new(Val::Px(490.0), Val::Px(60.0)),
+                                    ..default()
+                                },
+                                ..default()
                             },
                             ..default()
                         })
@@ -681,12 +706,14 @@ fn keyboard_events(
                         WindowMode::Windowed
                     });
                 }
-                // Some(KeyCode::Space) => {
-                //     time.0 += 5.0;
-                // }
-                // Some(KeyCode::Return) => {
-                //     time.0 = 0.0;
-                // }
+                #[cfg(debug_assertions)]
+                Some(KeyCode::Space) => {
+                    time.0 += 5.0;
+                }
+                #[cfg(debug_assertions)]
+                Some(KeyCode::Return) => {
+                    time.0 = 0.0;
+                }
                 _ => {}
             },
         }
