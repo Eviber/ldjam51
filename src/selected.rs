@@ -7,6 +7,9 @@ pub struct CurrentSelection(pub usize);
 #[derive(Clone, Copy, Component, Debug)]
 pub struct Selector;
 
+const CHOICE_Y1: f32 = 335.0; // TODO: make good code for once
+const CHOICE_Y2: f32 = 407.0;
+
 impl Selector {
     pub fn update_system(
         mut query: Query<&mut Style, With<Selector>>,
@@ -20,8 +23,8 @@ impl Selector {
             println!("selected: {}", current.0);
             match current.0 {
                 0 => style.position.top = Val::Percent(-1000.0),
-                1 => style.position.top = Val::Percent(770.0 / 1066.0 * 100.0),
-                2 => style.position.top = Val::Percent(860.0 / 1066.0 * 100.0),
+                1 => style.position.top = Val::Px(CHOICE_Y1 + 5.0),
+                2 => style.position.top = Val::Px(CHOICE_Y2 + 5.0),
                 _ => (),
             }
         }

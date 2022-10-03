@@ -487,7 +487,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                     left: Val::Percent(460.0 / 1896.0 * 100.0),
                                     ..default()
                                 },
-                                size: Size::new(Val::Px(490.0), Val::Px(28.0)),
+                                size: Size::new(Val::Px(490.0), Val::Px(60.0)),
                                 ..default()
                             },
                             image: UiImage(assets.load("select_marker.png")),
