@@ -1,5 +1,4 @@
-# PROXIMA
-Our Ludum Dare 51 entry :)
+![PROXIMA](https://static.jam.host/content/6b1/32/z/50e58.jpg.948x533.fit.jpg)
 
 ## Summary
 
@@ -21,4 +20,6 @@ Sholyu - Programmer, Art : https://github.com/yarypert
 WaFoo - Programmer : https://git.gaetanbrochard.dev | https://github.com/gbrochar  
 Zanilis - Programmer : https://github.com/nils-mathieu  
 
-wasm export from (https://github.com/mfdorst/bevy-wasm)
+wasm export scripts from https://github.com/mfdorst/bevy-wasm
+
+![Credits image](assets/Credits.png)
