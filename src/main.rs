@@ -19,12 +19,37 @@ pub type Random = rand_xoshiro::Xoroshiro128StarStar;
 /// Remaining time to answer (in seconds)
 pub struct RemainingTime(f32);
 pub struct AudioFlag(bool);
+/// Component to mark the background
+#[derive(Clone, Copy, Component, Debug)]
+struct Background;
 
 /// Resource referencing every ui element
 struct UiElements {
     terminal: Entity,
     choices: [Entity; 2],
     timer: Entity,
+}
+
+/// Resource referencing the loaded images
+struct Handles {
+    terminal_font: Handle<Font>,
+    background: Handle<Image>,
+    glass: Handle<Image>,
+    neons: Handle<Image>,
+    selector: Handle<Image>,
+    bar: Handle<Image>,
+    clock: Handle<Image>,
+}
+
+/// The three possible states of the game
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+enum GameState {
+    /// Start screen
+    Menu,
+    /// The game is running
+    Running,
+    /// The credits
+    Credits,
 }
 
 /// The glorious entry point.
@@ -59,8 +84,11 @@ fn main() -> ExitCode {
         .insert_resource(Random::from_entropy())
         .insert_resource(AudioFlag(true))
         .insert_resource(Vec::<Handle<AudioSource>>::new())
+        .insert_resource(Option::<Handles>::None)
         .add_plugins(DefaultPlugins)
         .add_plugin(AudioPlugin)
+        .add_state(GameState::Menu)
+        .add_startup_system(load_assets)
         .add_startup_system(setup_scene)
         .add_startup_system(setup_audio)
         .add_system_to_stage(CoreStage::First, ui::Prev::<Interaction>::update_prev)
@@ -71,6 +99,7 @@ fn main() -> ExitCode {
         .add_system(audio_game)
         .add_system(story_loop)
         .add_system(update_timer)
+        // .add_system(move_background)
         .run();
 
     ExitCode::SUCCESS
@@ -900,20 +929,34 @@ const CHOICE_Y1: f32 = 335.0;
 const CHOICE_X2: f32 = 230.0;
 const CHOICE_Y2: f32 = 407.0;
 
-fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {
-    let terminal_font = assets.load("RobotoMono-Medium.ttf");
+fn load_assets(assets: Res<AssetServer>, mut handles: ResMut<Option<Handles>>) {
+    *handles = Some(Handles {
+        terminal_font: assets.load("RobotoMono-Medium.ttf"),
+        background: assets.load("BackgroundStarsLoop.png"),
+        glass: assets.load("glass.png"),
+        neons: assets.load("NewNeonFrame.png"),
+        selector: assets.load("select_marker.png"),
+        bar: assets.load("bar.png"),
+        clock: assets.load("Timer.png"),
+    });
+}
 
+fn setup_scene(mut commands: Commands, story: Res<story::StoryExecutor>, r: Res<Option<Handles>>) {
+    while let None = *r {
+        std::thread::sleep(std::time::Duration::from_millis(100));
+    }
+    let r = r.as_ref().as_ref().unwrap();
     commands.spawn_bundle(Camera2dBundle::default());
 
     let query_text_style = TextStyle {
         color: Color::WHITE,
-        font: terminal_font.clone(),
+        font: r.terminal_font.clone(),
         font_size: 34.0,
     };
 
     let button_text_style = TextStyle {
         color: Color::WHITE,
-        font: terminal_font,
+        font: r.terminal_font.clone(),
         font_size: 24.0,
     };
 
@@ -933,20 +976,21 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
     commands
         .spawn_bundle(ImageBundle {
             style: style.clone(),
-            image: UiImage(assets.load("BackgroundStarsLoop.png")),
+            image: UiImage(r.background.clone()),
             ..default()
         })
+        .insert(Background)
         .with_children(|parent| {
             parent
                 .spawn_bundle(ImageBundle {
                     style: style.clone(),
-                    image: UiImage(assets.load("glass.png")),
+                    image: UiImage(r.glass.clone()),
                     ..default()
                 })
                 .with_children(|parent| {
                     parent.spawn_bundle(ImageBundle {
                         style,
-                        image: UiImage(assets.load("NewNeonFrame.png")),
+                        image: UiImage(r.neons.clone()),
                         ..default()
                     });
                 })
@@ -963,7 +1007,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                 size: Size::new(Val::Px(490.0), Val::Px(60.0)),
                                 ..default()
                             },
-                            image: UiImage(assets.load("select_marker.png")),
+                            image: UiImage(r.selector.clone()),
                             color: UiColor(Color::rgba(1.0, 1.0, 1.0, 0.2)),
                             ..default()
                         })
@@ -980,7 +1024,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                 },
                                 ..default()
                             },
-                            image: UiImage(assets.load("bar.png")),
+                            image: UiImage(r.bar.clone()),
                             ..default()
                         })
                         .with_children(|parent| {
@@ -995,7 +1039,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                     },
                                     ..default()
                                 },
-                                image: UiImage(assets.load("Timer.png")),
+                                image: UiImage(r.clock.clone()),
                                 ..default()
                             });
                         })
@@ -1201,3 +1245,19 @@ fn update_timer(
     let mut bar = ui_query.get_mut(ui_elements.timer).unwrap();
     bar.size.width = Val::Px(BAR_W * timer.0 / 10.0);
 }
+
+// fn move_background(time: Res<Time>, mut query: Query<&mut Style, With<Background>>) {
+//     let mut style = query.get_single_mut().unwrap();
+//     let x = if let Val::Px(x) = style.position.left {
+//         x
+//     } else {
+//         0.0
+//     };
+//     let y = if let Val::Px(y) = style.position.top {
+//         y
+//     } else {
+//         0.0
+//     };
+//     style.position.left = Val::Px(x - time.delta_seconds() * 100.0);
+//     style.position.top = Val::Px(y - time.delta_seconds() * 100.0);
+// }
