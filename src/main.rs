@@ -47,7 +47,7 @@ fn main() -> ExitCode {
 
     App::new()
         .insert_resource(WindowDescriptor {
-            title: "PLACEHOLDER".to_string(),
+            title: "PROXIMA".to_string(),
             width: p.window_size.width,
             height: p.window_size.height,
             resizable: false,

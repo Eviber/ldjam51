@@ -1864,18 +1864,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
 
 [[package]]
-name = "ldjam51"
-version = "0.0.1"
-dependencies = [
- "bevy",
- "bevy_kira_audio",
- "rand",
- "rand_xoshiro",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "libc"
 version = "0.2.134"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2437,6 +2425,18 @@ name = "profiling"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2f61dcf0b917cd75d4521d7343d1ffff3d1583054133c9b5cbea3375c703c40d"
+
+[[package]]
+name = "proxima"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "bevy_kira_audio",
+ "rand",
+ "rand_xoshiro",
+ "serde",
+ "serde_json",
+]
 
 [[package]]
 name = "quote"

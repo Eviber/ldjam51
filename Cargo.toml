@@ -1,6 +1,6 @@
 [package]
-name = "ldjam51"
-version = "0.0.1"
+name = "proxima"
+version = "0.1.0"
 edition = "2021"
 
 [profile.dev]
