@@ -2,8 +2,8 @@
 
 ## Summary
 
-You’re the captain of a spaceship, on a journey to nowhere in particular. You have a crew in charge and your loyal AI to help you manage the ship in the best possible way.
-You’ll have to make quick decisions to make sure that everyone stays alive, but also live the best possible life under your command.
+You’re the captain of a spaceship, on a journey to nowhere in particular. You have a crew in charge and your loyal AI to help you manage the ship in the best possible way.  
+You’ll have to make quick decisions to make sure that everyone stays alive, but also live the best possible life under your command.  
 Take care of everyone, and have fun.
 
 ## Controls
