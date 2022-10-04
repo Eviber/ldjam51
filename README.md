@@ -20,6 +20,18 @@ Sholyu - Programmer, Art : https://github.com/yarypert
 WaFoo - Programmer : https://git.gaetanbrochard.dev | https://github.com/gbrochar  
 Zanilis - Programmer : https://github.com/nils-mathieu  
 
-wasm export scripts from https://github.com/mfdorst/bevy-wasm
+WASM export scripts from https://github.com/mfdorst/bevy-wasm
 
 ![Credits image](assets/Credits.png)
+
+## Building
+You will need to have Rust installed.  
+Build and run the game with
+```
+cargo run
+```
+and export it to WASM with
+```
+./wasm-setup
+./wasm-build
+```
