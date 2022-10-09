@@ -27,6 +27,20 @@ struct UiElements {
     timer: Entity,
 }
 
+/// Game states
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+enum GameState {
+    /// Main menu
+    Menu,
+    /// Game is running
+    Running,
+    /// Credits
+    Credits,
+}
+
+/// Background entity
+struct Menu(Entity);
+
 /// The glorious entry point.
 fn main() -> ExitCode {
     let p = match parsing::read_config() {
@@ -45,6 +59,15 @@ fn main() -> ExitCode {
         }
     };
 
+    let running_state = SystemSet::on_update(GameState::Running)
+        .with_system(ui::Prev::<Interaction>::update_prev)
+        .with_system(ui::Terminal::animate_system)
+        .with_system(Selector::update_system)
+        .with_system(ui::Choice::select_choice_system)
+        .with_system(audio_game)
+        .with_system(story_loop)
+        .with_system(update_timer);
+
     App::new()
         .insert_resource(WindowDescriptor {
             title: "PROXIMA".to_string(),
@@ -61,16 +84,17 @@ fn main() -> ExitCode {
         .insert_resource(Vec::<Handle<AudioSource>>::new())
         .add_plugins(DefaultPlugins)
         .add_plugin(AudioPlugin)
-        .add_startup_system(setup_scene)
-        .add_startup_system(setup_audio)
+        .add_state(GameState::Menu)
+        .add_system_set(SystemSet::on_enter(GameState::Menu).with_system(menu_setup))
+        .add_system_set(SystemSet::on_update(GameState::Menu).with_system(menu_update))
+        .add_system_set(
+            SystemSet::on_enter(GameState::Running)
+                .with_system(setup_scene)
+                .with_system(setup_audio),
+        )
         .add_system_to_stage(CoreStage::First, ui::Prev::<Interaction>::update_prev)
-        .add_system(ui::Terminal::animate_system)
+        .add_system_set(running_state)
         .add_system(keyboard_events)
-        .add_system(Selector::update_system)
-        .add_system(ui::Choice::select_choice_system)
-        .add_system(audio_game)
-        .add_system(story_loop)
-        .add_system(update_timer)
         .run();
 
     ExitCode::SUCCESS
@@ -1200,4 +1224,53 @@ fn update_timer(
 ) {
     let mut bar = ui_query.get_mut(ui_elements.timer).unwrap();
     bar.size.width = Val::Px(BAR_W * timer.0 / 10.0);
+}
+
+fn menu_setup(mut commands: Commands, assets: Res<AssetServer>) {
+    let style = Style {
+        size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+        position_type: PositionType::Absolute,
+        ..default()
+    };
+
+    commands.spawn_bundle(Camera2dBundle::default());
+
+    let mut menu = Entity::from_raw(0);
+    commands
+        .spawn_bundle(ImageBundle {
+            style: style.clone(),
+            image: UiImage(assets.load("BackgroundStarsLoop.png")),
+            ..default()
+        })
+        .with_children(|parent| {
+            menu = parent.spawn_bundle(ImageBundle {
+                style: style.clone(),
+                image: UiImage(assets.load("MenuText.png")),
+                ..default()
+            }).id()
+            // .with_children(|parent| {
+            //     parent.spawn_bundle(ImageBundle {
+            //         style,
+            //         image: UiImage(assets.load("NewNeonFrame.png")),
+            //         ..default()
+            //     });
+            // })
+            ;
+        });
+    commands.insert_resource(Menu(menu));
+}
+
+/// Menu update system
+/// checks for mouse clicks and changes the scene if the mouse is clicked
+/// after hiding the menu
+fn menu_update(
+    mut state: ResMut<State<GameState>>,
+    buttons: Res<Input<MouseButton>>,
+    menu: ResMut<Menu>,
+    mut query: Query<&mut Style>,
+) {
+    if buttons.just_pressed(MouseButton::Left) {
+        state.set(GameState::Running).unwrap();
+        query.get_mut(menu.0).unwrap().display = Display::None;
+    }
 }
