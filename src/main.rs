@@ -38,8 +38,14 @@ enum GameState {
     Credits,
 }
 
-/// Background entity
+/// Menu entity
 struct Menu(Entity);
+
+/// Credits entity
+struct Credits(Entity);
+
+/// Current background music
+pub struct BackgroundMusic(Handle<AudioInstance>);
 
 /// The glorious entry point.
 fn main() -> ExitCode {
@@ -85,13 +91,23 @@ fn main() -> ExitCode {
         .add_plugins(DefaultPlugins)
         .add_plugin(AudioPlugin)
         .add_state(GameState::Menu)
-        .add_system_set(SystemSet::on_enter(GameState::Menu).with_system(menu_setup))
+        .add_startup_system(setup_audio)
+        .add_startup_system(load_assets)
+        .add_system_set(
+            SystemSet::on_enter(GameState::Menu)
+                .with_system(menu_setup)
+                .with_system(audio_menu),
+        )
         .add_system_set(SystemSet::on_update(GameState::Menu).with_system(menu_update))
         .add_system_set(
-            SystemSet::on_enter(GameState::Running)
-                .with_system(setup_scene)
-                .with_system(setup_audio),
+            SystemSet::on_enter(GameState::Credits)
+                .with_system(credits_setup)
+                .with_system(audio_credits),
         )
+        .add_system_set(SystemSet::on_exit(GameState::Credits).with_system(audio_stop))
+        .add_system_set(SystemSet::on_exit(GameState::Menu).with_system(audio_stop))
+        .add_system_set(SystemSet::on_update(GameState::Credits).with_system(credits_update))
+        .add_system_set(SystemSet::on_enter(GameState::Running).with_system(setup_scene))
         .add_system_to_stage(CoreStage::First, ui::Prev::<Interaction>::update_prev)
         .add_system_set(running_state)
         .add_system(keyboard_events)
@@ -100,7 +116,14 @@ fn main() -> ExitCode {
     ExitCode::SUCCESS
 }
 
-fn setup_audio(asset_server: Res<AssetServer>, mut audio_assets: ResMut<Vec<Handle<AudioSource>>>) {
+fn setup_audio(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    audio: Res<Audio>,
+    mut audio_assets: ResMut<Vec<Handle<AudioSource>>>,
+) {
+    commands.spawn_bundle(Camera2dBundle::default()); // whack
+
     audio_assets.push(asset_server.load("mainmenu.ogg")); // 0
     audio_assets.push(asset_server.load("credits.ogg"));
     audio_assets.push(asset_server.load("GJ_10s_drums_club.ogg")); // 2
@@ -118,14 +141,40 @@ fn setup_audio(asset_server: Res<AssetServer>, mut audio_assets: ResMut<Vec<Hand
     audio_assets.push(asset_server.load("GJ_10s_special_club.ogg")); // 14
     audio_assets.push(asset_server.load("GJ_10s_transition_1.ogg"));
     audio_assets.push(asset_server.load("GJ_10s_transition_2_loop.ogg")); // 16
+
+    commands.insert_resource(BackgroundMusic(
+        audio.play(audio_assets[0].clone()).loop_from(20.0).handle(),
+    ));
+    audio.stop();
 }
 
-fn audio_menu(audio: Res<Audio>, audio_assets: Res<Vec<Handle<AudioSource>>>) {
-    audio.play(audio_assets[0].clone()).loop_from(20.0);
+// pub struct BackgroundMusic(Handle<AudioInstance>);
+
+/// Starts the audio for the menu
+fn audio_menu(
+    audio: Res<Audio>,
+    audio_assets: Res<Vec<Handle<AudioSource>>>,
+    mut bgm: ResMut<BackgroundMusic>,
+) {
+    if let Some(handle) = audio_assets.get(0) {
+        bgm.0 = audio.play(handle.clone()).loop_from(20.0).handle();
+    }
 }
 
-fn audio_credits(audio: Res<Audio>, audio_assets: Res<Vec<Handle<AudioSource>>>) {
-    audio.play(audio_assets[1].clone()).looped();
+/// Starts the audio for the credits
+fn audio_credits(
+    audio: Res<Audio>,
+    audio_assets: Res<Vec<Handle<AudioSource>>>,
+    mut bgm: ResMut<BackgroundMusic>,
+) {
+    if let Some(handle) = audio_assets.get(1) {
+        bgm.0 = audio.play(handle.clone()).looped().handle();
+    }
+}
+
+/// stops the audio when changing state
+fn audio_stop(audio: Res<Audio>) {
+    audio.stop();
 }
 
 const VOLUME: f64 = 0.05;
@@ -825,94 +874,123 @@ fn audio_game(
                 }
                 _ => {}
             },
-            8 => match executor.current_prompt {
-                0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[12].clone())
-                        .with_volume(VOLUME);
-                }
-                1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                }
-                2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b3")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                }
-                3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                }
-                4 => {
-                    audio
-                        .create_channel("a5")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c5")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d5")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
-                }
-                5 => {
-                    audio
-                        .create_channel("a6")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c6")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d6")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
-                }
-                6 => {
-                    audio
-                        .create_channel("a7")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d7")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                }
-                _ => {}
-            },
+            // 8 => match executor.current_prompt {
+            //     0 => {
+            //         audio
+            //             .create_channel("a1")
+            //             .play(audio_assets[12].clone())
+            //             .with_volume(VOLUME);
+            //     }
+            //     1 => {
+            //         audio
+            //             .create_channel("a2")
+            //             .play(audio_assets[5].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("b2")
+            //             .play(audio_assets[8].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("c2")
+            //             .play(audio_assets[10].clone())
+            //             .with_volume(VOLUME);
+            //     }
+            //     2 => {
+            //         audio
+            //             .create_channel("a3")
+            //             .play(audio_assets[5].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("b3")
+            //             .play(audio_assets[8].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("c3")
+            //             .play(audio_assets[10].clone())
+            //             .with_volume(VOLUME);
+            //     }
+            //     3 => {
+            //         audio
+            //             .create_channel("a4")
+            //             .play(audio_assets[5].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("c4")
+            //             .play(audio_assets[7].clone())
+            //             .with_volume(VOLUME);
+            //     }
+            //     4 => {
+            //         audio
+            //             .create_channel("a5")
+            //             .play(audio_assets[5].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("c5")
+            //             .play(audio_assets[7].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("d5")
+            //             .play(audio_assets[9].clone())
+            //             .with_volume(VOLUME);
+            //     }
+            //     5 => {
+            //         audio
+            //             .create_channel("a6")
+            //             .play(audio_assets[5].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("c6")
+            //             .play(audio_assets[7].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("d6")
+            //             .play(audio_assets[9].clone())
+            //             .with_volume(VOLUME);
+            //     }
+            //     6 => {
+            //         audio
+            //             .create_channel("a7")
+            //             .play(audio_assets[5].clone())
+            //             .with_volume(VOLUME);
+            //         audio
+            //             .create_channel("d7")
+            //             .play(audio_assets[6].clone())
+            //             .with_volume(VOLUME);
+            //     }
+            //     _ => {}
+            // },
             _ => {}
         }
     }
+}
+
+struct ImagesHandle {
+    bg: Handle<Image>,
+    menu: Handle<Image>,
+    credits: Handle<Image>,
+    glass: Handle<Image>,
+    neon: Handle<Image>,
+    select_marker: Handle<Image>,
+    bar: Handle<Image>,
+    timer: Handle<Image>,
+}
+
+struct FontHandle(Handle<Font>);
+
+fn load_assets(mut commands: Commands, assets: Res<AssetServer>) {
+    let images_assets = ImagesHandle {
+        bg: assets.load("BackgroundStarsLoop.png"),
+        menu: assets.load("MenuText.png"),
+        credits: assets.load("Credits.png"),
+        glass: assets.load("glass.png"),
+        neon: assets.load("NewNeonFrame.png"),
+        select_marker: assets.load("select_marker.png"),
+        bar: assets.load("bar.png"),
+        timer: assets.load("Timer.png"),
+    };
+
+    commands.insert_resource(images_assets);
+    commands.insert_resource(FontHandle(assets.load("RobotoMono-Medium.ttf")));
 }
 
 const BAR_W: f32 = 191.0;
@@ -924,8 +1002,15 @@ const CHOICE_Y1: f32 = 335.0;
 const CHOICE_X2: f32 = 230.0;
 const CHOICE_Y2: f32 = 407.0;
 
-fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {
-    let terminal_font = assets.load("RobotoMono-Medium.ttf");
+struct BackgroundEntity(Entity);
+
+fn setup_scene(
+    mut commands: Commands,
+    story: Res<story::StoryExecutor>,
+    images: Res<ImagesHandle>,
+    terminal_font: Res<FontHandle>,
+) {
+    let terminal_font = terminal_font.0.clone();
 
     let query_text_style = TextStyle {
         color: Color::WHITE,
@@ -955,20 +1040,20 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
     commands
         .spawn_bundle(ImageBundle {
             style: style.clone(),
-            image: UiImage(assets.load("BackgroundStarsLoop.png")),
+            image: UiImage(images.bg.clone()),
             ..default()
         })
         .with_children(|parent| {
             parent
                 .spawn_bundle(ImageBundle {
                     style: style.clone(),
-                    image: UiImage(assets.load("glass.png")),
+                    image: UiImage(images.glass.clone()),
                     ..default()
                 })
                 .with_children(|parent| {
                     parent.spawn_bundle(ImageBundle {
                         style,
-                        image: UiImage(assets.load("NewNeonFrame.png")),
+                        image: UiImage(images.neon.clone()),
                         ..default()
                     });
                 })
@@ -985,7 +1070,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                 size: Size::new(Val::Px(490.0), Val::Px(60.0)),
                                 ..default()
                             },
-                            image: UiImage(assets.load("select_marker.png")),
+                            image: UiImage(images.select_marker.clone()),
                             color: UiColor(Color::rgba(1.0, 1.0, 1.0, 0.2)),
                             ..default()
                         })
@@ -1002,7 +1087,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                 },
                                 ..default()
                             },
-                            image: UiImage(assets.load("bar.png")),
+                            image: UiImage(images.bar.clone()),
                             ..default()
                         })
                         .with_children(|parent| {
@@ -1017,7 +1102,7 @@ fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<stor
                                     },
                                     ..default()
                                 },
-                                image: UiImage(assets.load("Timer.png")),
+                                image: UiImage(images.timer.clone()),
                                 ..default()
                             });
                         })
@@ -1151,6 +1236,7 @@ fn story_loop(
     dt: Res<Time>,
     mut query: Query<(&mut ui::Terminal, &mut Text)>,
     mut audio_flag: ResMut<AudioFlag>,
+    mut state: ResMut<State<GameState>>,
 ) {
     remaining_time.0 -= dt.delta_seconds();
 
@@ -1159,9 +1245,14 @@ fn story_loop(
     }
     audio_flag.0 = true;
     remaining_time.0 = 10.0;
-    let next_prompt = executor
-        .select_answer(current_selection.0, &mut *random)
-        .unwrap();
+    let next_prompt = match executor.select_answer(current_selection.0, &mut *random) {
+        Some(prompt) => prompt,
+        None => {
+            state.set(GameState::Menu).unwrap();
+            return;
+        }
+    };
+
     current_selection.0 = 0;
     let (mut terminal, mut text) = query.get_mut(ui_elements.terminal).unwrap();
     terminal.animated_text = next_prompt.request.clone();
@@ -1224,38 +1315,32 @@ fn update_timer(
     bar.size.width = Val::Px(BAR_W * timer.0 / 10.0);
 }
 
-fn menu_setup(mut commands: Commands, assets: Res<AssetServer>) {
+fn menu_setup(mut commands: Commands, images: Res<ImagesHandle>) {
     let style = Style {
         size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
         position_type: PositionType::Absolute,
         ..default()
     };
 
-    commands.spawn_bundle(Camera2dBundle::default());
-
     let mut menu = Entity::from_raw(0);
-    commands
+    let bg = commands
         .spawn_bundle(ImageBundle {
             style: style.clone(),
-            image: UiImage(assets.load("BackgroundStarsLoop.png")),
+            image: UiImage(images.bg.clone()),
             ..default()
         })
         .with_children(|parent| {
             menu = parent.spawn_bundle(ImageBundle {
                 style: style.clone(),
-                image: UiImage(assets.load("MenuText.png")),
+                image: UiImage(images.menu.clone()),
                 ..default()
             }).id()
-            // .with_children(|parent| {
-            //     parent.spawn_bundle(ImageBundle {
-            //         style,
-            //         image: UiImage(assets.load("NewNeonFrame.png")),
-            //         ..default()
-            //     });
-            // })
+            // TODO: add button here
             ;
-        });
+        })
+        .id();
     commands.insert_resource(Menu(menu));
+    commands.insert_resource(BackgroundEntity(bg));
 }
 
 /// Menu update system
@@ -1263,12 +1348,55 @@ fn menu_setup(mut commands: Commands, assets: Res<AssetServer>) {
 /// after hiding the menu
 fn menu_update(
     mut state: ResMut<State<GameState>>,
-    buttons: Res<Input<MouseButton>>,
-    menu: ResMut<Menu>,
+    mut buttons: ResMut<Input<MouseButton>>,
+    menu: Res<Menu>,
     mut query: Query<&mut Style>,
 ) {
     if buttons.just_pressed(MouseButton::Left) {
         state.set(GameState::Running).unwrap();
+        buttons.reset(MouseButton::Left);
+        println!("Credits");
         query.get_mut(menu.0).unwrap().display = Display::None;
+    }
+}
+
+/// Credits setup system
+fn credits_setup(mut commands: Commands, images: Res<ImagesHandle>) {
+    let style = Style {
+        size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+        position_type: PositionType::Absolute,
+        ..default()
+    };
+
+    let mut credits = Entity::from_raw(0);
+    commands
+        .spawn_bundle(ImageBundle {
+            style: style.clone(),
+            image: UiImage(images.bg.clone()),
+            ..default()
+        })
+        .with_children(|parent| {
+            credits = parent
+                .spawn_bundle(ImageBundle {
+                    style: style.clone(),
+                    image: UiImage(images.credits.clone()),
+                    ..default()
+                })
+                .id();
+        });
+    commands.insert_resource(Credits(credits));
+}
+
+fn credits_update(
+    mut state: ResMut<State<GameState>>,
+    mut buttons: ResMut<Input<MouseButton>>,
+    credits: ResMut<Credits>,
+    mut query: Query<&mut Style>,
+) {
+    if buttons.just_pressed(MouseButton::Left) {
+        state.set(GameState::Menu).unwrap();
+        buttons.reset(MouseButton::Left);
+        println!("Menu");
+        query.get_mut(credits.0).unwrap().display = Display::None;
     }
 }
