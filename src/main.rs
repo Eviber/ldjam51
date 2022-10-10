@@ -927,8 +927,6 @@ const CHOICE_Y2: f32 = 407.0;
 fn setup_scene(mut commands: Commands, assets: Res<AssetServer>, story: Res<story::StoryExecutor>) {
     let terminal_font = assets.load("RobotoMono-Medium.ttf");
 
-    commands.spawn_bundle(Camera2dBundle::default());
-
     let query_text_style = TextStyle {
         color: Color::WHITE,
         font: terminal_font.clone(),
