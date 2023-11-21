@@ -96,6 +96,24 @@ fn setup_audio(asset_server: Res<AssetServer>, mut audio_assets: ResMut<Vec<Hand
     audio_assets.push(asset_server.load("GJ_10s_transition_2_loop.ogg")); // 16
 }
 
+// const MENU: usize = 0;
+// const CREDITS: usize = 1;
+// const DRUMS_CLUB: usize = 2;
+const DRUMS_HIPHOP: usize = 3;
+const DRUMS_SLOWBREAK: usize = 4;
+const DRUMS_SYNTHWAVE: usize = 5;
+const LAYERS_ARP: usize = 6;
+const LAYERS_BASS1: usize = 7;
+const LAYERS_BASS2: usize = 8;
+const LAYERS_BELLS: usize = 9;
+const LAYERS_CHORD: usize = 10;
+// const LAYERS_PERCUSSION: usize = 11;
+const SOLO_1: usize = 12;
+const SOLO_2: usize = 13;
+// const SPECIAL_CLUB: usize = 14;
+const INTRO: usize = 15;
+const LOOP_TRANSITION: usize = 16;
+
 fn audio_menu(audio: Res<Audio>, audio_assets: Res<Vec<Handle<AudioSource>>>) {
     audio.play(audio_assets[0].clone()).loop_from(20.0);
 }
@@ -112,777 +130,310 @@ fn audio_game(
     executor: Res<story::StoryExecutor>,
     audio_assets: Res<Vec<Handle<AudioSource>>>,
 ) {
+    let mut play = |channel: &str, idx: usize| {
+        audio
+            .create_channel(channel)
+            .play(audio_assets[idx].clone())
+            .with_volume(VOLUME);
+    };
     if audio_flag.0 == true {
         audio_flag.0 = false;
+        let batch = executor.current_batch;
+        let prompt = executor.current_prompt;
+        if !(batch == 0 && prompt == 0) {
+            let select = batch + prompt % 2;
+            play(if select == 0 { "loop1" } else { "loop2" }, LOOP_TRANSITION);
+        }
+        println!("batch: {}, prompt: {}", batch, prompt);
         match executor.current_batch {
-            0 => {
-                match executor.current_prompt {
-                    0 => {
-                        //audio.create_channel("a1").play(audio_assets[6].clone());
-                    }
-                    1 => {
-                        audio
-                            .create_channel("a2")
-                            .play(audio_assets[7].clone())
-                            .with_volume(VOLUME);
-                    }
-                    2 => {
-                        audio
-                            .create_channel("a3")
-                            .play(audio_assets[3].clone())
-                            .with_volume(VOLUME);
-                        audio
-                            .create_channel("c3")
-                            .play(audio_assets[7].clone())
-                            .with_volume(VOLUME);
-                    }
-                    3 => {
-                        audio
-                            .create_channel("a4")
-                            .play(audio_assets[3].clone())
-                            .with_volume(VOLUME);
-                        audio
-                            .create_channel("b4")
-                            .play(audio_assets[7].clone())
-                            .with_volume(VOLUME);
-                    }
-                    _ => {}
-                }
-            }
-            1 => match executor.current_prompt {
+            0 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b1")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c1")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a1", INTRO);
+                    play("b1", LAYERS_BASS1);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a2", LAYERS_BASS1);
+                    play("b2", LAYERS_BASS2);
                 }
-                2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b3")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                2..=3 => {
+                    play("a3", DRUMS_HIPHOP);
+                    play("b3", LAYERS_BASS1);
+                    play("c3", LAYERS_BASS2);
                 }
-                3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b4")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                _ => {}
+            },
+            1 => match executor.current_prompt {
+                0..=3 => {
+                    play("a1", DRUMS_SYNTHWAVE);
+                    play("b1", LAYERS_ARP);
+                    play("c1", LAYERS_BASS1);
+                    play("d1", LAYERS_BASS2);
                 }
                 _ => {}
             },
             2 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b1")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c1")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a1", DRUMS_SLOWBREAK);
+                    play("b1", LAYERS_ARP);
+                    play("c1", LAYERS_BASS1);
+                    play("d1", LAYERS_BASS2);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d2")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_SLOWBREAK);
+                    play("b2", LAYERS_ARP);
+                    play("c2", LAYERS_BASS1);
+                    play("d2", LAYERS_BASS2);
+                    play("e2", LAYERS_BELLS);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_SLOWBREAK);
+                    play("c3", LAYERS_BASS1);
+                    play("d3", LAYERS_BASS2);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b4")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_SLOWBREAK);
+                    play("b4", LAYERS_ARP);
+                    play("c4", LAYERS_BASS1);
+                    play("d4", LAYERS_BASS2);
+                    play("e4", LAYERS_BELLS);
                 }
                 _ => {}
             },
             3 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b1")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c1")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a1", DRUMS_SYNTHWAVE);
+                    play("b1", LAYERS_ARP);
+                    play("c1", LAYERS_BASS1);
+                    play("d1", LAYERS_BASS2);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_SYNTHWAVE);
+                    play("b2", LAYERS_ARP);
+                    play("c2", LAYERS_BASS1);
+                    play("d2", LAYERS_BASS2);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_SYNTHWAVE);
+                    play("c3", LAYERS_BASS1);
+                    play("d3", LAYERS_BASS2);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b4")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_HIPHOP);
+                    play("b4", LAYERS_ARP);
+                    play("c4", LAYERS_BASS1);
+                    play("d4", LAYERS_BASS2);
+                    play("e4", LAYERS_BELLS);
                 }
                 4 => {
-                    audio
-                        .create_channel("a5")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b5")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c5")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a5", DRUMS_SLOWBREAK);
+                    play("b5", LAYERS_ARP);
+                    play("c5", LAYERS_BASS1);
+                    play("d5", LAYERS_BASS2);
                 }
                 _ => {}
             },
             4 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b1")
-                        .play(audio_assets[12].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c1")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a1", DRUMS_SYNTHWAVE);
+                    play("b1", SOLO_1);
+                    play("c1", LAYERS_BASS2);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_SYNTHWAVE);
+                    play("c2", LAYERS_BASS2);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_SYNTHWAVE);
+                    play("c3", LAYERS_BASS2);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b4")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_SLOWBREAK);
+                    play("b4", LAYERS_CHORD);
+                    play("c4", LAYERS_BASS2);
+                    play("d4", LAYERS_BELLS);
                 }
                 4 => {
-                    audio
-                        .create_channel("a5")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b5")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c5")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d5")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a5", DRUMS_SLOWBREAK);
+                    play("b5", LAYERS_CHORD);
+                    play("c5", LAYERS_BASS2);
+                    play("d5", LAYERS_BELLS);
                 }
                 5 => {
-                    audio
-                        .create_channel("a6")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b6")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c6")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a6", DRUMS_SLOWBREAK);
+                    play("b6", LAYERS_CHORD);
+                    play("c6", LAYERS_BASS2);
                 }
                 _ => {}
             },
             5 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b1")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c1")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a1", DRUMS_SYNTHWAVE);
+                    play("b1", LAYERS_ARP);
+                    play("c1", LAYERS_BASS1);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_SYNTHWAVE);
+                    play("b2", LAYERS_ARP);
+                    play("c2", LAYERS_BASS1);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_SYNTHWAVE);
+                    play("c3", LAYERS_BASS1);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b4")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_SYNTHWAVE);
+                    play("b4", LAYERS_ARP);
+                    play("c4", LAYERS_BASS1);
+                    play("d4", LAYERS_BELLS);
                 }
                 4 => {
-                    audio
-                        .create_channel("a5")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b5")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c5")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a5", DRUMS_SYNTHWAVE);
+                    play("b5", LAYERS_ARP);
+                    play("c5", LAYERS_BASS1);
                 }
                 _ => {}
             },
             6 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b1")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c1")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a1", DRUMS_SYNTHWAVE);
+                    play("b1", LAYERS_CHORD);
+                    play("c1", LAYERS_BASS2);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_SYNTHWAVE);
+                    play("b2", LAYERS_CHORD);
+                    play("c2", LAYERS_BASS2);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_SYNTHWAVE);
+                    play("c3", LAYERS_BASS2);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_SYNTHWAVE);
+                    play("b4", LAYERS_BELLS);
+                    play("c4", LAYERS_BASS2);
+                    play("d4", LAYERS_CHORD);
                 }
                 _ => {}
             },
             7 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b1")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c1")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a1", DRUMS_SLOWBREAK);
+                    play("b1", LAYERS_ARP);
+                    play("c1", LAYERS_BASS1);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_SLOWBREAK);
+                    play("b2", LAYERS_ARP);
+                    play("c2", LAYERS_BASS1);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_SLOWBREAK);
+                    play("c3", LAYERS_BASS1);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b4")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_SLOWBREAK);
+                    play("b4", LAYERS_ARP);
+                    play("c4", LAYERS_BASS1);
+                    play("d4", LAYERS_BELLS);
                 }
                 4 => {
-                    audio
-                        .create_channel("a5")
-                        .play(audio_assets[4].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b5")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c5")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a5", DRUMS_SLOWBREAK);
+                    play("b5", LAYERS_ARP);
+                    play("c5", LAYERS_BASS1);
                 }
                 _ => {}
             },
             8 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[13].clone())
-                        .with_volume(VOLUME);
+                    play("a1", SOLO_2);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_HIPHOP);
+                    play("c2", LAYERS_BASS2);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_HIPHOP);
+                    play("c3", LAYERS_BASS2);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d4")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_HIPHOP);
+                    play("c4", LAYERS_BASS2);
+                    play("d4", LAYERS_BELLS);
                 }
                 4 => {
-                    audio
-                        .create_channel("a5")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c5")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d5")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a5", DRUMS_HIPHOP);
+                    play("c5", LAYERS_BASS1);
+                    play("d5", LAYERS_BELLS);
                 }
                 5 => {
-                    audio
-                        .create_channel("a6")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c6")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d6")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a6", DRUMS_HIPHOP);
+                    play("c6", LAYERS_BASS1);
+                    play("d6", LAYERS_BELLS);
                 }
                 6 => {
-                    audio
-                        .create_channel("a7")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b7")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c7")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d7")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a7", DRUMS_HIPHOP);
+                    play("b7", LAYERS_CHORD);
+                    play("c7", LAYERS_BASS2);
+                    play("d7", LAYERS_BELLS);
                 }
                 7 => {
-                    audio
-                        .create_channel("a8")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b8")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c8")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d8")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a8", DRUMS_HIPHOP);
+                    play("b8", LAYERS_CHORD);
+                    play("c8", LAYERS_BASS1);
+                    play("d8", LAYERS_BELLS);
                 }
                 8 => {
-                    audio
-                        .create_channel("a9")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b9")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c9")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d9")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a9", DRUMS_HIPHOP);
+                    play("b9", LAYERS_CHORD);
+                    play("c9", LAYERS_BASS2);
+                    play("d9", LAYERS_BELLS);
                 }
                 9 => {
-                    audio
-                        .create_channel("a10")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b10")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c10")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d10")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a10", DRUMS_HIPHOP);
+                    play("b10", LAYERS_ARP);
+                    play("c10", LAYERS_BASS1);
+                    play("d10", LAYERS_BELLS);
                 }
                 10 => {
-                    audio
-                        .create_channel("a11")
-                        .play(audio_assets[3].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b11")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c11")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d11")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a11", DRUMS_HIPHOP);
+                    play("b11", LAYERS_ARP);
+                    play("c11", LAYERS_BASS1);
+                    play("d11", LAYERS_BELLS);
                 }
                 _ => {}
             },
             8 => match executor.current_prompt {
                 0 => {
-                    audio
-                        .create_channel("a1")
-                        .play(audio_assets[12].clone())
-                        .with_volume(VOLUME);
+                    play("a1", SOLO_1);
                 }
                 1 => {
-                    audio
-                        .create_channel("a2")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b2")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c2")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
+                    play("a2", DRUMS_SYNTHWAVE);
+                    play("b2", LAYERS_BASS2);
+                    play("c2", LAYERS_CHORD);
                 }
                 2 => {
-                    audio
-                        .create_channel("a3")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("b3")
-                        .play(audio_assets[8].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c3")
-                        .play(audio_assets[10].clone())
-                        .with_volume(VOLUME);
+                    play("a3", DRUMS_SYNTHWAVE);
+                    play("b3", LAYERS_BASS2);
+                    play("c3", LAYERS_CHORD);
                 }
                 3 => {
-                    audio
-                        .create_channel("a4")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c4")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
+                    play("a4", DRUMS_SYNTHWAVE);
+                    play("c4", LAYERS_BASS1);
                 }
                 4 => {
-                    audio
-                        .create_channel("a5")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c5")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d5")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a5", DRUMS_SYNTHWAVE);
+                    play("c5", LAYERS_BASS1);
+                    play("d5", LAYERS_BELLS);
                 }
                 5 => {
-                    audio
-                        .create_channel("a6")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("c6")
-                        .play(audio_assets[7].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d6")
-                        .play(audio_assets[9].clone())
-                        .with_volume(VOLUME);
+                    play("a6", DRUMS_SYNTHWAVE);
+                    play("c6", LAYERS_BASS1);
+                    play("d6", LAYERS_BELLS);
                 }
                 6 => {
-                    audio
-                        .create_channel("a7")
-                        .play(audio_assets[5].clone())
-                        .with_volume(VOLUME);
-                    audio
-                        .create_channel("d7")
-                        .play(audio_assets[6].clone())
-                        .with_volume(VOLUME);
+                    play("a7", DRUMS_SYNTHWAVE);
+                    play("d7", LAYERS_ARP);
                 }
                 _ => {}
             },
